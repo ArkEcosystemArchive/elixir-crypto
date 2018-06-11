@@ -16,7 +16,7 @@ The package can be installed by adding `ark_crypto` to your list of dependencies
 
 ```elixir
 def deps do
-  [{:ark_crypto, "~> 0.0.1"}]
+  [{:ark_crypto, "~> 0.1.0"}]
 end
 ```
 
