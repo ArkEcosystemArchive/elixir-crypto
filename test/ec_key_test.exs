@@ -1,6 +1,6 @@
-defmodule ArkElixirCrypto.EcKeyTest do
+defmodule ArkCrypto.EcKeyTest do
   use ExUnit.Case
-  import ArkElixirCrypto.EcKey
+  import ArkCrypto.EcKey
 
   test 'sign' do
     private_key = 'this is a top secret passphrase'

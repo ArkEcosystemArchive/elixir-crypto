@@ -1,6 +1,6 @@
-defmodule ArkElixirCrypto.EcKey do
+defmodule ArkCrypto.EcKey do
   alias Exbtc.Core, as: BtcCore
-  alias ArkElixirCrypto.{Base58Check, Der}
+  alias ArkCrypto.{Base58Check, Der}
 
   def sign(message, secret) do
     private_key = get_private_key(secret)

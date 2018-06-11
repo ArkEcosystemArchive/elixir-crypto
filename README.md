@@ -12,13 +12,11 @@
 
 ## Installation
 
-The package can be installed by adding `ark_elixir_crypto` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `ark_crypto` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [
-    {:ark_elixir_crypto, github: "ArkEcosystem/elixir-crypto"}
-  ]
+  [{:ark_crypto, "~> 0.0.1"}]
 end
 ```
 

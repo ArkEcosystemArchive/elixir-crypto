@@ -1,8 +1,8 @@
-defmodule ArkElixirCrypto.TransactionBuilder do
-  alias ArkElixirCrypto.{Base58Check, EcKey}
+defmodule ArkCrypto.TransactionBuilder do
+  alias ArkCrypto.{Base58Check, EcKey}
 
   # 13:00:00 March 21, 2017
-  @ark_epoch Application.get_env(:ark_elixir_crypto, :transactions)[:epoch]
+  @ark_epoch Application.get_env(:ark_crypto, :transactions)[:epoch]
 
   @transfer 0
   @second_signature 1
@@ -10,11 +10,11 @@ defmodule ArkElixirCrypto.TransactionBuilder do
   @vote 3
   @multisignature 4
 
-  @transfer_fee Application.get_env(:ark_elixir_crypto, :transactions)[:transfer_fee]
-  @second_signature_fee Application.get_env(:ark_elixir_crypto, :transactions)[:second_signature_fee]
-  @delegate_fee Application.get_env(:ark_elixir_crypto, :transactions)[:delegate_fee]
-  @vote_fee Application.get_env(:ark_elixir_crypto, :transactions)[:vote_fee]
-  @multisignature_base_fee Application.get_env(:ark_elixir_crypto, :transactions)[:multisignature_base_fee]
+  @transfer_fee Application.get_env(:ark_crypto, :transactions)[:transfer_fee]
+  @second_signature_fee Application.get_env(:ark_crypto, :transactions)[:second_signature_fee]
+  @delegate_fee Application.get_env(:ark_crypto, :transactions)[:delegate_fee]
+  @vote_fee Application.get_env(:ark_crypto, :transactions)[:vote_fee]
+  @multisignature_base_fee Application.get_env(:ark_crypto, :transactions)[:multisignature_base_fee]
 
   @doc """
   Unix timestamp representing the seconds between the Unix Epoch and the Ark
@@ -119,7 +119,7 @@ defmodule ArkElixirCrypto.TransactionBuilder do
     secret,
     second_secret \\ nil
   ) do
-    key = ArkElixirCrypto.EcKey.get_private_key(secret)
+    key = ArkCrypto.EcKey.get_private_key(secret)
 
     transaction = %{
       amount: amount,
