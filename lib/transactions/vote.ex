@@ -10,16 +10,19 @@ defmodule ArkCrypto.Transactions.Vote do
     key = EcKey.get_private_key(secret)
 
     transaction = %{
+      id: nil,
+      timestamp: Crypto.seconds_since_epoch,
+      type: Types.vote(),
+      fee: Fees.vote(),
+      sender_public_key: EcKey.private_key_to_public_key(key),
+
+      signature: nil,
+      sign_signature: nil,
+
+      recipient_id: EcKey.private_key_to_address(key, network_address),
+
       amount: 0,
       asset: %{ votes: votes },
-      fee: Fees.vote(),
-      id: nil,
-      recipient_id: EcKey.private_key_to_address(key, network_address),
-      sender_public_key: EcKey.private_key_to_public_key(key),
-      sign_signature: nil,
-      signature: nil,
-      timestamp: Crypto.seconds_since_epoch,
-      type: Types.vote()
     }
 
     Transaction.add_signatures_and_create_id(transaction, secret, second_secret)

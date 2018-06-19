@@ -10,20 +10,22 @@ defmodule ArkCrypto.Transactions.DelegateRegistration do
     public_key = EcKey.private_key_to_public_key(key)
 
     transaction = %{
+      id: nil,
+      timestamp: Crypto.seconds_since_epoch,
+      type: Types.delegate_registration(),
+      fee: Fees.delegate_registration(),
+      sender_public_key: public_key,
+
+      signature: nil,
+      sign_signature: nil,
+
       amount: 0,
       asset: %{
         delegate: %{
           public_key: public_key,
           username: username
         }
-      },
-      fee: Fees.delegate_registration(),
-      id: nil,
-      sender_public_key: public_key,
-      sign_signature: nil,
-      signature: nil,
-      timestamp: Crypto.seconds_since_epoch,
-      type: Types.delegate_registration(),
+      }
     }
 
     Transaction.add_signatures_and_create_id(transaction, secret, second_secret)

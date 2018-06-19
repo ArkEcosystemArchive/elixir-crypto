@@ -9,15 +9,17 @@ defmodule ArkCrypto.Transactions.Transfer do
     key = EcKey.get_private_key(secret)
 
     transaction = %{
-      amount: amount,
-      fee: Fees.transfer(),
       id: nil,
-      recipient_id: recipient_id,
-      sender_public_key: EcKey.private_key_to_public_key(key),
-      sign_signature: nil,
-      signature: nil,
       timestamp: Crypto.seconds_since_epoch,
       type: Types.transfer(),
+      fee: Fees.transfer(),
+      sender_public_key: EcKey.private_key_to_public_key(key),
+
+      signature: nil,
+      sign_signature: nil,
+
+      amount: amount,
+      recipient_id: recipient_id,
       vendor_field: vendor_field
     }
 
