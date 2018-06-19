@@ -1,39 +1,32 @@
-defmodule ArkCrypto.Transactions.Vote do
-  @type 0
-  @fee Application.get_env(:ark_crypto, :transactions)[:transfer_fee]
+defmodule ArkCrypto.Transactions.Transfer do
+  alias ArkCrypto.Crypto
+  alias ArkCrypto.Utils.EcKey
+  alias ArkCrypto.Transactions.Transaction
+  alias ArkCrypto.Transactions.Enums.{Fees, Types}
 
-  @spec recipient_id(String.t()) :: Map.t()
-  def recipient_id(recipient_id) do
-    #
-  end
-
-  @spec amount(Integer.t()) :: Map.t()
-  def amount(amount) do
-    #
-  end
-
-  @spec vendor_field(String.t()) :: Map.t()
-  def vendor_field(vendor_field) do
-    #
-  end
-
-  @spec create(String.t(), String.t()) :: Map.t
-  def create(secret, second_secret \\ nil) do
-    key = ArkCrypto.EcKey.get_private_key(secret)
+  @spec create(String.t(), Integer.t(), String.t(), String.t(), String.t()) :: Map.t
+  def create(
+    recipient_id,
+    amount,
+    vendor_field,
+    secret,
+    second_secret \\ nil
+  ) do
+    key = EcKey.get_private_key(secret)
 
     transaction = %{
       amount: amount,
-      fee: @fee,
+      fee: Fees.transfer(),
       id: nil,
       recipient_id: recipient_id,
       sender_public_key: EcKey.private_key_to_public_key(key),
       sign_signature: nil,
       signature: nil,
-      timestamp: __MODULE__.seconds_since_epoch,
-      type: @type,
+      timestamp: Crypto.seconds_since_epoch,
+      type: Types.transfer(),
       vendor_field: vendor_field
     }
 
-    add_signatures_and_create_id(transaction, secret, second_secret)
+    Transaction.add_signatures_and_create_id(transaction, secret, second_secret)
   end
 end

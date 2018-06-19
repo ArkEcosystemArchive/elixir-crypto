@@ -1,8 +1,15 @@
-defmodule ArkCrypto.TransactionBuilder do
-  alias ArkCrypto.{Base58Check, EcKey}
+defmodule ArkCrypto.Transactions.Transaction do
+  alias ArkCrypto.Utils.{Base58Check, EcKey}
+  alias ArkCrypto.Transactions.Enums.Types
 
   # 13:00:00 March 21, 2017
   @ark_epoch Application.get_env(:ark_crypto, :transactions)[:epoch]
+
+  @delegate Types.delegate_registration
+  @multisignature Types.multi_signature_registration
+  @second_signature Types.second_signature_registration
+  @transfer Types.transfer
+  @vote Types.vote
 
   @doc """
   Unix timestamp representing the seconds between the Unix Epoch and the Ark
@@ -46,7 +53,7 @@ defmodule ArkCrypto.TransactionBuilder do
 
   # private
 
-  defp add_signatures_and_create_id(
+  def add_signatures_and_create_id(
     transaction,
     secret,
     second_secret \\ nil

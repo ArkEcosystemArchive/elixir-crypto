@@ -1,6 +1,6 @@
 # Taken from https://github.com/gjaldon/base58check, but uses :crypto instead of :erlsha2
 
-defmodule ArkCrypto.Base58Check do
+defmodule ArkCrypto.Utils.Base58Check do
   @b58_characters '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
   def decode58(code) when is_binary(code) do

@@ -1,11 +1,8 @@
 defmodule ArkCrypto.Transactions.SecondSignatureRegistration do
-  @type 1
-  @fee Application.get_env(:ark_crypto, :transactions)[:second_signature_fee]
-
-  @spec second_secret(String.t()) :: Map.t()
-  def second_secret(second_secret) do
-    #
-  end
+  alias ArkCrypto.Crypto
+  alias ArkCrypto.Utils.EcKey
+  alias ArkCrypto.Transactions.Transaction
+  alias ArkCrypto.Transactions.Enums.{Fees, Types}
 
   @spec create(String.t(), String.t()) :: Map.t()
   def create(second_secret, first_secret) do
@@ -19,15 +16,15 @@ defmodule ArkCrypto.Transactions.SecondSignatureRegistration do
           public_key: EcKey.private_key_to_public_key(second_key)
         }
       },
-      fee: @fee,
+      fee: Types.second_signature_registration(),
       id: nil,
       sender_public_key: EcKey.private_key_to_public_key(key),
       sign_signature: nil,
       signature: nil,
-      timestamp: __MODULE__.seconds_since_epoch,
-      type: @type
+      timestamp: Crypto.seconds_since_epoch,
+      type: Types.second_signature_registration()
     }
 
-    add_signatures_and_create_id(transaction, first_secret)
+    Transaction.add_signatures_and_create_id(transaction, first_secret)
   end
 end
