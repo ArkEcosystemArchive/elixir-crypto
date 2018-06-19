@@ -4,6 +4,7 @@ defmodule ArkCrypto.Utils.EcKey do
 
   def sign(message, secret) do
     private_key = get_private_key(secret)
+
     {_v, r, s} = BtcCore.ecdsa_raw_sign(
       Base.encode16(:crypto.hash(:sha256, message), case: :lower),
       private_key
