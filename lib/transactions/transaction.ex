@@ -2,28 +2,11 @@ defmodule ArkCrypto.Transactions.Transaction do
   alias ArkCrypto.Utils.{Base58Check, EcKey}
   alias ArkCrypto.Transactions.Enums.Types
 
-  # 13:00:00 March 21, 2017
-  @ark_epoch Application.get_env(:ark_crypto, :transactions)[:epoch]
-
   @delegate Types.delegate_registration
   @multisignature Types.multi_signature_registration
   @second_signature Types.second_signature_registration
   @transfer Types.transfer
   @vote Types.vote
-
-  @doc """
-  Unix timestamp representing the seconds between the Unix Epoch and the Ark
-  Epoch. Add this to the timestamps received from the API to make them UNIX.
-  """
-  @spec ark_epoch() :: Integer.t()
-  def ark_epoch do
-    @ark_epoch
-  end
-
-  @spec seconds_since_epoch() :: Integer.t()
-  def seconds_since_epoch do
-    :os.system_time(:seconds) - @ark_epoch
-  end
 
   @spec transaction_to_params(Map.t()) :: Map.t()
   def transaction_to_params(transaction) do

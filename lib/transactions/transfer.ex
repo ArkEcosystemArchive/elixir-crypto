@@ -5,13 +5,7 @@ defmodule ArkCrypto.Transactions.Transfer do
   alias ArkCrypto.Transactions.Enums.{Fees, Types}
 
   @spec create(String.t(), Integer.t(), String.t(), String.t(), String.t()) :: Map.t
-  def create(
-    recipient_id,
-    amount,
-    vendor_field,
-    secret,
-    second_secret \\ nil
-  ) do
+  def create(recipient_id, amount, vendor_field, secret, second_secret \\ nil) do
     key = EcKey.get_private_key(secret)
 
     transaction = %{
