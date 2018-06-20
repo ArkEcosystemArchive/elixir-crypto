@@ -11,14 +11,12 @@ defmodule ArkCrypto.Transactions.SecondSignatureRegistration do
 
     transaction = %{
       id: nil,
-      timestamp: Crypto.seconds_since_epoch,
+      timestamp: Crypto.seconds_since_epoch(),
       type: Types.second_signature_registration(),
       fee: Fees.second_signature_registration(),
       sender_public_key: EcKey.private_key_to_public_key(key),
-
       signature: nil,
       sign_signature: nil,
-
       amount: 0,
       asset: %{
         signature: %{

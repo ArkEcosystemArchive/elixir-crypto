@@ -2,11 +2,11 @@ defmodule ArkCrypto.Transactions.Transaction do
   alias ArkCrypto.Utils.{Base58Check, EcKey}
   alias ArkCrypto.Transactions.Enums.Types
 
-  @delegate Types.delegate_registration
-  @multisignature Types.multi_signature_registration
-  @second_signature Types.second_signature_registration
-  @transfer Types.transfer
-  @vote Types.vote
+  @delegate Types.delegate_registration()
+  @multisignature Types.multi_signature_registration()
+  @second_signature Types.second_signature_registration()
+  @transfer Types.transfer()
+  @vote Types.vote()
 
   @spec transaction_to_params(Map.t()) :: Map.t()
   def transaction_to_params(transaction) do
@@ -14,7 +14,7 @@ defmodule ArkCrypto.Transactions.Transaction do
 
     sign_signature =
       if transaction[:sign_signature] do
-        %{ :signSignature => transaction[:sign_signature] }
+        %{:signSignature => transaction[:sign_signature]}
       else
         %{}
       end
@@ -37,10 +37,10 @@ defmodule ArkCrypto.Transactions.Transaction do
   # private
 
   def add_signatures_and_create_id(
-    transaction,
-    secret,
-    second_secret \\ nil
-  ) do
+        transaction,
+        secret,
+        second_secret \\ nil
+      ) do
     signature =
       transaction
       |> get_bytes
@@ -52,7 +52,7 @@ defmodule ArkCrypto.Transactions.Transaction do
       |> second_signing(second_secret)
 
     bytes = get_bytes(transaction, false, false)
-    id = :sha256 |> :crypto.hash(bytes) |> Base.encode16 |> String.downcase
+    id = :sha256 |> :crypto.hash(bytes) |> Base.encode16() |> String.downcase()
 
     Map.put(transaction, :id, id)
   end
@@ -109,8 +109,8 @@ defmodule ArkCrypto.Transactions.Transaction do
         asset
         |> Map.get(:signature)
         |> Map.get(:public_key)
-        |> String.upcase
-        |> Base.decode16!
+        |> String.upcase()
+        |> Base.decode16!()
 
       @transfer ->
         <<>>
@@ -127,10 +127,10 @@ defmodule ArkCrypto.Transactions.Transaction do
   end
 
   defp get_bytes(
-    transaction,
-    skip_signature \\ true,
-    skip_second_signature \\ true
-  ) do
+         transaction,
+         skip_signature \\ true,
+         skip_second_signature \\ true
+       ) do
     amount = <<transaction[:amount]::little-64>>
     asset_info = get_asset_info(transaction)
     fee = <<transaction[:fee]::little-64>>
@@ -138,20 +138,14 @@ defmodule ArkCrypto.Transactions.Transaction do
     second_signature = get_second_signature(transaction, skip_second_signature)
     sender_public_key = get_sender_public_key(transaction)
     signature = get_signature(transaction, skip_signature)
-    timestamp =  <<transaction[:timestamp]::little-32>>
+    timestamp = <<transaction[:timestamp]::little-32>>
     type = <<transaction[:type]>>
     vendor_field = get_vendor_field(transaction)
 
     type <>
-    timestamp <>
-    sender_public_key <>
-    recipient_id <>
-    vendor_field <>
-    amount <>
-    asset_info <>
-    fee <>
-    signature <>
-    second_signature
+      timestamp <>
+      sender_public_key <>
+      recipient_id <> vendor_field <> amount <> asset_info <> fee <> signature <> second_signature
   end
 
   defp get_recipient_id(%{recipient_id: recipient_id}) do
@@ -163,12 +157,12 @@ defmodule ArkCrypto.Transactions.Transaction do
   end
 
   defp get_sender_public_key(%{sender_public_key: sender_public_key}) do
-    sender_public_key |> String.upcase |> Base.decode16!
+    sender_public_key |> String.upcase() |> Base.decode16!()
   end
 
   defp get_second_signature(%{sign_signature: signature}, false)
-  when is_bitstring(signature) do
-    signature |> String.upcase |> Base.decode16!
+       when is_bitstring(signature) do
+    signature |> String.upcase() |> Base.decode16!()
   end
 
   defp get_second_signature(_transaction, _true) do
@@ -176,7 +170,7 @@ defmodule ArkCrypto.Transactions.Transaction do
   end
 
   defp get_signature(%{signature: signature}, false) do
-    signature |> String.upcase |> Base.decode16!
+    signature |> String.upcase() |> Base.decode16!()
   end
 
   defp get_signature(_transaction, _true) do

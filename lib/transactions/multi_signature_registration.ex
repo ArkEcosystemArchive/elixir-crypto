@@ -10,14 +10,12 @@ defmodule ArkCrypto.Transactions.MultiSignatureRegistration do
 
     transaction = %{
       :id => nil,
-      :timestamp => Crypto.seconds_since_epoch,
+      :timestamp => Crypto.seconds_since_epoch(),
       :type => Types.multi_signature_registration(),
       :fee => (1 + length(keysgroup)) * Fees.multi_signature_registration(),
       :sender_public_key => EcKey.private_key_to_public_key(key),
-
       :signature => nil,
       :sign_signature => nil,
-
       :amount => 0,
       :asset => %{
         :multisignature => %{

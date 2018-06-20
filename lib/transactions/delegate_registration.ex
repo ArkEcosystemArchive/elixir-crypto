@@ -11,14 +11,12 @@ defmodule ArkCrypto.Transactions.DelegateRegistration do
 
     transaction = %{
       id: nil,
-      timestamp: Crypto.seconds_since_epoch,
+      timestamp: Crypto.seconds_since_epoch(),
       type: Types.delegate_registration(),
       fee: Fees.delegate_registration(),
       sender_public_key: public_key,
-
       signature: nil,
       sign_signature: nil,
-
       amount: 0,
       asset: %{
         delegate: %{

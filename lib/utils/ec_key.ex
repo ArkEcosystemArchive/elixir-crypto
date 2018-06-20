@@ -5,10 +5,11 @@ defmodule ArkCrypto.Utils.EcKey do
   def sign(message, secret) do
     private_key = get_private_key(secret)
 
-    {_v, r, s} = BtcCore.ecdsa_raw_sign(
-      Base.encode16(:crypto.hash(:sha256, message), case: :lower),
-      private_key
-    )
+    {_v, r, s} =
+      BtcCore.ecdsa_raw_sign(
+        Base.encode16(:crypto.hash(:sha256, message), case: :lower),
+        private_key
+      )
 
     r
     |> Der.encode_sequence(s)
@@ -21,8 +22,8 @@ defmodule ArkCrypto.Utils.EcKey do
 
   def private_key_to_public_key(private_key) do
     private_key
-    |> BtcCore.privkey_to_pubkey
-    |> BtcCore.compress
+    |> BtcCore.privkey_to_pubkey()
+    |> BtcCore.compress()
   end
 
   def private_key_to_address(private_key, network_address \\ 0x17) do
