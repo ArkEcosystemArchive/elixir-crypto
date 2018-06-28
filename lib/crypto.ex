@@ -1,4 +1,4 @@
-defmodule ArkCrypto.Crypto do
+defmodule ArkEcosystem.Crypto.Crypto do
   # 13:00:00 March 21, 2017
   @ark_epoch Application.get_env(:ark_crypto, :transactions)[:epoch]
 

@@ -1,8 +1,8 @@
-defmodule ArkCrypto.Transactions.SecondSignatureRegistration do
-  alias ArkCrypto.Crypto
-  alias ArkCrypto.Utils.EcKey
-  alias ArkCrypto.Transactions.Transaction
-  alias ArkCrypto.Transactions.Enums.{Fees, Types}
+defmodule ArkEcosystem.Crypto.Transactions.SecondSignatureRegistration do
+  alias ArkEcosystem.Crypto.Crypto
+  alias ArkEcosystem.Crypto.Utils.EcKey
+  alias ArkEcosystem.Crypto.Transactions.Transaction
+  alias ArkEcosystem.Crypto.Transactions.Enums.{Fees, Types}
 
   @spec create(String.t(), String.t()) :: Map.t()
   def create(second_secret, first_secret) do

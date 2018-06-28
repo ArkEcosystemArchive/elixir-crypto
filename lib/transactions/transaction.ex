@@ -1,6 +1,6 @@
-defmodule ArkCrypto.Transactions.Transaction do
-  alias ArkCrypto.Utils.{Base58Check, EcKey}
-  alias ArkCrypto.Transactions.Enums.Types
+defmodule ArkEcosystem.Crypto.Transactions.Transaction do
+  alias ArkEcosystem.Crypto.Utils.{Base58Check, EcKey}
+  alias ArkEcosystem.Crypto.Transactions.Enums.Types
 
   @delegate Types.delegate_registration()
   @multisignature Types.multi_signature_registration()

@@ -1,4 +1,4 @@
-defmodule ArkElixir.MixProject do
+defmodule ArkEcosystem.Crypto.MixProject do
   use Mix.Project
 
   def project do

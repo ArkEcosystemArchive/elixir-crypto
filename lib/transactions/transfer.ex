@@ -1,8 +1,8 @@
-defmodule ArkCrypto.Transactions.Transfer do
-  alias ArkCrypto.Crypto
-  alias ArkCrypto.Utils.EcKey
-  alias ArkCrypto.Transactions.Transaction
-  alias ArkCrypto.Transactions.Enums.{Fees, Types}
+defmodule ArkEcosystem.Crypto.Transactions.Transfer do
+  alias ArkEcosystem.Crypto.Crypto
+  alias ArkEcosystem.Crypto.Utils.EcKey
+  alias ArkEcosystem.Crypto.Transactions.Transaction
+  alias ArkEcosystem.Crypto.Transactions.Enums.{Fees, Types}
 
   @spec create(String.t(), Integer.t(), String.t(), String.t(), String.t()) :: Map.t()
   def create(recipient_id, amount, vendor_field, secret, second_secret \\ nil) do

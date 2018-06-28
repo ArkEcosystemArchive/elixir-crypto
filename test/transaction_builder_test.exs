@@ -1,10 +1,10 @@
-defmodule ArkCrypto.TransactionBuilderTest do
+defmodule ArkEcosystem.Crypto.TransactionBuilderTest do
   use ExUnit.Case, async: false
-  import ArkCrypto.TransactionBuilder
+  import ArkEcosystem.Crypto.TransactionBuilder
   import Mock
 
   setup_with_mocks([
-    {ArkCrypto.TransactionBuilder, [:passthrough], [seconds_since_epoch: fn() -> 27534919 end]}
+    {ArkEcosystem.Crypto.TransactionBuilder, [:passthrough], [seconds_since_epoch: fn() -> 27534919 end]}
   ]) do
     {
       :ok,

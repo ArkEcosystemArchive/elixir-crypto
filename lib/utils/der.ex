@@ -1,4 +1,4 @@
-defmodule ArkCrypto.Utils.Der do
+defmodule ArkEcosystem.Crypto.Utils.Der do
   def encode_sequence(r, s) do
     combined = encode_integer(r) <> encode_integer(s)
     <<0x30>> <> <<byte_length(combined)>> <> combined

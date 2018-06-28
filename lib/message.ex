@@ -1,5 +1,5 @@
-defmodule ArkCrypto.Message do
-  alias ArkCrypto.Utils.EcKey
+defmodule ArkEcosystem.Crypto.Message do
+  alias ArkEcosystem.Crypto.Utils.EcKey
 
   @spec sign(String.t(), String.t()) :: Map.t()
   def sign(message, passphrase) do

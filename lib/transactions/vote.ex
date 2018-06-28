@@ -1,8 +1,8 @@
-defmodule ArkCrypto.Transactions.Vote do
-  alias ArkCrypto.Crypto
-  alias ArkCrypto.Utils.EcKey
-  alias ArkCrypto.Transactions.Transaction
-  alias ArkCrypto.Transactions.Enums.{Fees, Types}
+defmodule ArkEcosystem.Crypto.Transactions.Vote do
+  alias ArkEcosystem.Crypto.Crypto
+  alias ArkEcosystem.Crypto.Utils.EcKey
+  alias ArkEcosystem.Crypto.Transactions.Transaction
+  alias ArkEcosystem.Crypto.Transactions.Enums.{Fees, Types}
 
   @spec create(Array.t(), String.t(), String.t(), String.t()) :: Map.t()
   def create(votes, secret, second_secret, network_address \\ nil) do

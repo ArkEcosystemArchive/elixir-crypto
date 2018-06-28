@@ -1,4 +1,4 @@
-defmodule ArkCrypto.Transactions.Enums.Types do
+defmodule ArkEcosystem.Crypto.Transactions.Enums.Types do
   def transfer do
     0
   end
