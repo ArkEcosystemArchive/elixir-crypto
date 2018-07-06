@@ -15,4 +15,9 @@ defmodule ArkEcosystem.Crypto.Crypto do
   def seconds_since_epoch do
     :os.system_time(:seconds) - @ark_epoch
   end
+
+
+  def get_id(transaction) do
+    0
+  end
 end
