@@ -12,6 +12,9 @@ defmodule ArkEcosystem.Crypto.Message do
 
   @spec verify(String.t(), String.t(), String.t()) :: Boolean.t()
   def verify(message, signature, public_key) do
+
+    key = EcKey.pubkey_from_hex(public_key)
+    IO.puts(key)
     IO.puts(message)
     IO.puts(signature)
     IO.puts(public_key)

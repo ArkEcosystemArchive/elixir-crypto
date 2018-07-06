@@ -44,6 +44,10 @@ defmodule ArkEcosystem.Crypto.Utils.EcKey do
     |> private_key_to_address(network_address)
   end
 
+  def pubkey_from_hex(public_key) do
+    BtcCore.decompress(public_key)
+  end
+
   # private
 
   defp public_key_to_address(public_key, network_address) do
