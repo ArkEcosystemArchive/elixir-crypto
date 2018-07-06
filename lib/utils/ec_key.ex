@@ -48,6 +48,11 @@ defmodule ArkEcosystem.Crypto.Utils.EcKey do
     BtcCore.decompress(public_key)
   end
 
+  def verify_message(message, signature, public_key) do
+    sig = BtcCore.decode_sig(signature)
+    BtcCore.ecdsa_raw_verify(message, sig, public_key)
+  end
+
   # private
 
   defp public_key_to_address(public_key, network_address) do

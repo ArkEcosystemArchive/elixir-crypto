@@ -15,10 +15,6 @@ defmodule ArkEcosystem.Crypto.Message do
 
     key = EcKey.pubkey_from_hex(public_key)
     hash = Base.encode16(:crypto.hash(:sha256, message), case: :lower)
-    IO.puts(hash)
-    IO.puts(key)
-    IO.puts(message)
-    IO.puts(signature)
-    IO.puts(public_key)
+    EcKey.verify_message(hash, signature, key)
   end
 end
