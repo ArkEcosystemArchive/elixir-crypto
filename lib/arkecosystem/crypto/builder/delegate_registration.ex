@@ -1,13 +1,12 @@
-defmodule ArkEcosystem.Crypto.Transactions.DelegateRegistration do
+defmodule ArkEcosystem.Crypto.Builder.DelegateRegistration do
   alias ArkEcosystem.Crypto.Crypto
   alias ArkEcosystem.Crypto.Utils.EcKey
-  alias ArkEcosystem.Crypto.Transactions.Transaction
-  alias ArkEcosystem.Crypto.Transactions.Enums.{Fees, Types}
+  alias ArkEcosystem.Crypto.Builder.Transaction
+  alias ArkEcosystem.Crypto.Enums.{Fees, Types}
 
   @spec create(String.t(), String.t(), String.t()) :: Map.t()
   def create(username, secret, second_secret \\ nil) do
-    key = EcKey.get_private_key(secret)
-    public_key = EcKey.private_key_to_public_key(key)
+    public_key = EcKey.secret_to_public_key(secret)
 
     transaction = %{
       id: nil,
