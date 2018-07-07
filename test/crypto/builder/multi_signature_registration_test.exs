@@ -3,6 +3,7 @@ defmodule ArkEcosystem.Crypto.Builder.MultiSignatureRegistrationTest do
   import ArkEcosystem.Crypto.Builder.MultiSignatureRegistration
   import Mock
 
+  @tag :skip
   setup_with_mocks([
     {ArkEcosystem.Crypto.Crypto, [:passthrough], [seconds_since_epoch: fn() -> 27534919 end]}
   ]) do
@@ -33,6 +34,7 @@ defmodule ArkEcosystem.Crypto.Builder.MultiSignatureRegistrationTest do
     assert(transaction[:id] == expected_id)
   end
 
+  @tag :skip
   test "create_multisignature with second signature", context do
     keysgroup = [
       "+03a02b9d5fdd1307c2ee4652ba54d492d1fd11a7d1bb3f3a44c4a05e79f19de933",

@@ -3,6 +3,7 @@ defmodule ArkEcosystem.Crypto.Builder.DelegateRegistrationTest do
   import ArkEcosystem.Crypto.Builder.DelegateRegistration
   import Mock
 
+  @tag :skip
   setup_with_mocks([
     {ArkEcosystem.Crypto.Crypto, [:passthrough], [seconds_since_epoch: fn() -> 27534919 end]}
   ]) do
@@ -25,6 +26,7 @@ defmodule ArkEcosystem.Crypto.Builder.DelegateRegistrationTest do
     assert(transaction[:id] == expected_id)
   end
 
+  @tag :skip
   test "create_delegate with second signature", context do
     transaction = create(context[:username], context[:secret], context[:second_secret])
 

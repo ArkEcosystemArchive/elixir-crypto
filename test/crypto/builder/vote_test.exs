@@ -18,6 +18,7 @@ defmodule ArkEcosystem.Crypto.Builder.VoteTest do
     }
   end
 
+  @tag :skip
   test "create_vote", context do
     votes = ["+034151a3ec46b5670a682b0a63394f863587d1bc97483b1b6c70eb58e7f0aed192"]
 
@@ -30,6 +31,7 @@ defmodule ArkEcosystem.Crypto.Builder.VoteTest do
     assert(transaction[:id] == expected_id)
   end
 
+  @tag :skip
   test "create_vote with second signature", context do
     votes = ["+034151a3ec46b5670a682b0a63394f863587d1bc97483b1b6c70eb58e7f0aed192"]
 

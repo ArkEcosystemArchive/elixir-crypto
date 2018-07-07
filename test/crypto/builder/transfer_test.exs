@@ -3,6 +3,7 @@ defmodule ArkEcosystem.Crypto.Builder.TransferTest do
   import ArkEcosystem.Crypto.Builder.Transfer
   import Mock
 
+  @tag :skip
   setup_with_mocks([
     {ArkEcosystem.Crypto.Crypto, [:passthrough], [seconds_since_epoch: fn() -> 27534919 end]}
   ]) do
