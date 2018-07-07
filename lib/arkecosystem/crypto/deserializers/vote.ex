@@ -35,10 +35,10 @@ defmodule ArkEcosystem.Crypto.Deserializers.Vote do
       _     :: binary
     >> = serialized
 
-    if String.last(type) == "1" do
-      vote = "+" <> vote
+    vote = if String.last(type) == "1" do
+      "+" <> vote
     else
-      vote = "-" <> vote
+      "-" <> vote
     end
 
     votes = votes ++ [vote]
@@ -46,7 +46,7 @@ defmodule ArkEcosystem.Crypto.Deserializers.Vote do
     deserialize_votes(from, to, serialized, offset, votes)
   end
 
-  defp deserialize_votes(from, to, serialized, offset, votes) when from == to do
+  defp deserialize_votes(from, to, _serialized, _offset, votes) when from == to do
     votes
   end
 

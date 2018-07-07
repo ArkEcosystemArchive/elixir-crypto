@@ -36,15 +36,17 @@ defmodule ArkEcosystem.Crypto.Deserializer do
       |> deserialize_type
       |> parse_signatures
 
-    if !Map.has_key?(transaction, :amount) do
-      transaction = Map.put(transaction, :amount, 0)
+    transaction = if !Map.has_key?(transaction, :amount) do
+      Map.put(transaction, :amount, 0)
+    else
+      transaction
     end
 
     if transaction.version == 1 do
-      transaction = handle_version_one(transaction)
+      handle_version_one(transaction)
+    else
+      transaction
     end
-
-    transaction
   end
 
   defp deserialize_header(data) do
@@ -62,13 +64,11 @@ defmodule ArkEcosystem.Crypto.Deserializer do
       vendor_bytes        :: binary
     >> = bytes
 
-    vendor_field_hex = <<>>
-
-    if vendor_field_length > 0 do
-      <<
-        vendor_field_hex  :: binary-size(vendor_field_length),
-        _                 :: binary
-      >> = vendor_bytes
+    vendor_field_hex = if vendor_field_length > 0 do
+      << vendor_field_hex :: binary-size(vendor_field_length), _ :: binary >> = vendor_bytes
+      vendor_field_hex
+    else
+      <<>>
     end
 
     asset_offset = 50 * 2 + vendor_field_length * 2
@@ -117,8 +117,9 @@ defmodule ArkEcosystem.Crypto.Deserializer do
     >> = serialized
 
     multi_signature_offset = 0
-    if String.length(signature) == 0 do
-      transaction = Map.delete(transaction, :signature)
+    transaction = if String.length(signature) == 0 do
+      Map.delete(transaction, :signature)
+
     else
 
       IO.inspect "MOO"
@@ -137,16 +138,17 @@ defmodule ArkEcosystem.Crypto.Deserializer do
         second_signature      :: binary
       >> = signature
 
-      transaction = Map.put(transaction, :signature, first_signature)
-      transaction = Map.put(transaction, :second_signature, second_signature)
+      transaction = transaction
+        |> Map.put(:signature, first_signature)
+        |> Map.put(:second_signature, second_signature)
 
       # Multi Signature
       multi_signature_offset = multi_signature_offset + signature_length
 
-      if String.length(second_signature) == 0 or
-         String.starts_with?(second_signature, "ff") do
+      { transaction, multi_signature_offset } = if String.length(second_signature) == 0 or
+        String.starts_with?(second_signature, "ff") do
+        { Map.delete(transaction, :second_signature), multi_signature_offset }
 
-        transaction = Map.delete(transaction, :second_signature)
       else
 
         # Second Signature
@@ -159,14 +161,13 @@ defmodule ArkEcosystem.Crypto.Deserializer do
         second_signature_length = calc_signature_size(second_signature_length)
 
         <<
-          second_signature  :: binary-size(second_signature_length),
+          second_signature_data  :: binary-size(second_signature_length),
           _                 :: binary
         >> = transaction.second_signature
 
-        transaction = Map.put(transaction, :second_signature, second_signature)
-
         # Multi Signature
         multi_signature_offset = multi_signature_offset + second_signature_length
+        { Map.put(transaction, :second_signature, second_signature_data), multi_signature_offset }
       end
 
       # All Signatures
@@ -176,7 +177,7 @@ defmodule ArkEcosystem.Crypto.Deserializer do
         signatures  :: binary
       >> = serialized
 
-      if String.length(second_signature) > 0 and !String.starts_with?(second_signature, "ff") do
+      transaction = if String.length(second_signature) > 0 and !String.starts_with?(second_signature, "ff") do
 
         # Parse Multi Signatures
         <<
@@ -186,10 +187,16 @@ defmodule ArkEcosystem.Crypto.Deserializer do
         multi_signatures = parse_multi_signatures(multi_signature_bytes, [])
 
         if length(multi_signatures) > 0 do
-          transaction = Map.put(transaction, :signatures, multi_signatures)
+          Map.put(transaction, :signatures, multi_signatures)
+        else
+          transaction
         end
 
+      else
+        transaction
       end
+
+      transaction
     end
 
     IO.inspect transaction
@@ -224,18 +231,20 @@ defmodule ArkEcosystem.Crypto.Deserializer do
   end
 
   defp handle_version_one(transaction) do
-    if Map.has_key?(transaction, :second_signature) do
-      transaction = Map.put(transaction, :sign_signature, transaction.second_signature)
+    transaction = if Map.has_key?(transaction, :second_signature) do
+      Map.put(transaction, :sign_signature, transaction.second_signature)
+    else
+      transaction
     end
 
-    case transaction.type do
+    transaction = case transaction.type do
       @second_signature_registration ->
         recipient_id = EcKey.public_key_to_address(transaction.sender_public_key)
-        transaction = Map.put(transaction, :recipient_id, recipient_id)
+        Map.put(transaction, :recipient_id, recipient_id)
 
       @vote ->
         recipient_id = EcKey.public_key_to_address(transaction.sender_public_key)
-        transaction = Map.put(transaction, :recipient_id, recipient_id)
+        Map.put(transaction, :recipient_id, recipient_id)
 
       @multi_signature_registration ->
         keysgroup = transaction.asset.multisignature.keysgroup
@@ -243,23 +252,26 @@ defmodule ArkEcosystem.Crypto.Deserializer do
               if String.starts_with?(key, "+"), do: key, else: "+" <> key
             end)
 
-        transaction = Kernel.put_in(transaction, [:asset, :multisignature, :keysgroup], keysgroup)
+        Kernel.put_in(transaction, [:asset, :multisignature, :keysgroup], keysgroup)
 
       _ ->
-        true
+        transaction
     end
 
-    if Map.has_key?(transaction, :vendor_field_hex) and byte_size(transaction.vendor_field_hex) > 0  do
+    transaction = if Map.has_key?(transaction, :vendor_field_hex) and byte_size(transaction.vendor_field_hex) > 0  do
       vendor_field = Base.decode16!(transaction.vendor_field_hex, case: :lower)
-      transaction = Map.put(transaction, :vendor_field, vendor_field)
+      Map.put(transaction, :vendor_field, vendor_field)
+    else
+      transaction
     end
 
     if !Map.has_key?(transaction, :id) do
       id = Crypto.get_id(transaction)
-      transaction = Map.put(transaction, :id, id)
+      Map.put(transaction, :id, id)
+    else
+      transaction
     end
 
-    transaction
   end
 
   defp calc_signature_size(hex) do

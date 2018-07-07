@@ -46,7 +46,7 @@ defmodule ArkEcosystem.Crypto.Deserializers.MultiSignatureRegistration do
     deserialize_keysgroup(from, to, rest, keysgroup)
   end
 
-  defp deserialize_keysgroup(from, to, bytes, keysgroup) when from == to do
+  defp deserialize_keysgroup(from, to, _bytes, keysgroup) when from == to do
     keysgroup
   end
 

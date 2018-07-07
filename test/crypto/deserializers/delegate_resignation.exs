@@ -1,7 +1,6 @@
 defmodule ArkEcosystem.Crypto.Deserializer.DelegateResignationTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Deserializer
-  import Mock
 
   @tag :skip
   test "should be ok" do

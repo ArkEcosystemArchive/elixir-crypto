@@ -1,7 +1,6 @@
 defmodule ArkEcosystem.Crypto.Deserializer.SecondSignatureRegistrationTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Deserializer
-  import Mock
 
   test "should be ok" do
     transaction = File.read!("test/fixtures/transactions/second_signature_registration.json")

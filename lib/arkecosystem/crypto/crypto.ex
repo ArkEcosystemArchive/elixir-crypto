@@ -1,4 +1,6 @@
 defmodule ArkEcosystem.Crypto.Crypto do
+  alias ArkEcosystem.Crypto.Utils.Base58Check
+
   # 13:00:00 March 21, 2017
   @ark_epoch Application.get_env(:ark_crypto, :transactions)[:epoch]
 
@@ -19,5 +21,10 @@ defmodule ArkEcosystem.Crypto.Crypto do
 
   def get_id(transaction) do
     0
+  end
+
+  def encode58(data) when is_binary data do
+    data
+      |> Base58Check.encode58check(<<>>)
   end
 end

@@ -1,4 +1,5 @@
 defmodule ArkEcosystem.Crypto.Deserializers.MultiPayment do
+  alias ArkEcosystem.Crypto.Crypto
 
   def deserialize(data) do
     [ transaction, asset_offset, serialized, bytes ] = data
@@ -10,7 +11,7 @@ defmodule ArkEcosystem.Crypto.Deserializers.MultiPayment do
       payments_binary :: binary
     >> = bytes
 
-    payments = deserialize_payments(0, total, bytes, [])
+    payments = deserialize_payments(0, total, payments_binary, [])
     amount = Enum.reduce(payments, 0, fn(payment, acc) -> payment.amount + acc end)
 
     transaction = Kernel.put_in(transaction, [:asset, :payments], payments)
@@ -34,7 +35,7 @@ defmodule ArkEcosystem.Crypto.Deserializers.MultiPayment do
     >> = bytes
 
     recipient_id = address
-      |> Base58Check.encode58check(<<>>)
+      |> Crypto.encode58
 
     payment = %{
       :amount => amount,
@@ -47,7 +48,7 @@ defmodule ArkEcosystem.Crypto.Deserializers.MultiPayment do
     deserialize_payments(from, to, rest, payments)
   end
 
-  defp deserialize_payments(from, to, bytes, payments) when from == to do
+  defp deserialize_payments(from, to, _bytes, payments) when from == to do
     payments
   end
 

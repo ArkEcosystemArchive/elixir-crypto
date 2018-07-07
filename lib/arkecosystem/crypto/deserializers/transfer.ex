@@ -1,5 +1,5 @@
 defmodule ArkEcosystem.Crypto.Deserializers.Transfer do
-  alias ArkEcosystem.Crypto.Utils.{Base58Check}
+  alias ArkEcosystem.Crypto.Crypto
 
   def deserialize(data) do
     [ transaction, asset_offset, serialized, bytes ] = data
@@ -14,7 +14,7 @@ defmodule ArkEcosystem.Crypto.Deserializers.Transfer do
     >> = bytes
 
     recipient_id = recipient_id
-      |> Base58Check.encode58check(<<>>)
+      |> Crypto.encode58
 
     transaction = Map.put(transaction, :amount, amount)
     transaction = Map.put(transaction, :expiration, expiration)
