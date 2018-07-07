@@ -1,23 +1,40 @@
-defmodule ArkEcosystem.Crypto.Deserialiser do
+defmodule ArkEcosystem.Crypto.Deserializer do
   alias ArkEcosystem.Crypto.Crypto
+  alias ArkEcosystem.Crypto.Utils.EcKey
   alias ArkEcosystem.Crypto.Enums.Types
+  alias ArkEcosystem.Crypto.Deserializers.Transfer
+  alias ArkEcosystem.Crypto.Deserializers.SecondSignatureRegistration
+  alias ArkEcosystem.Crypto.Deserializers.DelegateRegistration
+  alias ArkEcosystem.Crypto.Deserializers.Vote
+  alias ArkEcosystem.Crypto.Deserializers.MultiSignatureRegistration
+  alias ArkEcosystem.Crypto.Deserializers.IPFS
+  alias ArkEcosystem.Crypto.Deserializers.TimelockTransfer
+  alias ArkEcosystem.Crypto.Deserializers.MultiPayment
+  alias ArkEcosystem.Crypto.Deserializers.DelegateResignation
 
-  @delegate_registration Types.delegate_registration()
-  @multi_signature Types.multi_signature_registration()
-  @second_signature Types.second_signature_registration()
   @transfer Types.transfer()
+  @second_signature_registration Types.second_signature_registration()
+  @delegate_registration Types.delegate_registration()
   @vote Types.vote()
+  @multi_signature_registration Types.multi_signature_registration()
+  @ipfs Types.ipfs()
+  @timelock_transfer Types.timelock_transfer()
+  @multi_payment Types.multi_payment()
+  @delegate_resignation Types.delegate_resignation()
 
-  def deserialise(%{serialized: serialized}) when is_bitstring(serialized) do
+  def deserialize(%{serialized: serialized}) when is_bitstring(serialized) do
     IO.puts serialized
 
     bytes = Base.decode16!(serialized, case: :lower)
+    { bytes, serialized }
     IO.inspect bytes
 
-    transaction = bytes
+    data = [ serialized, bytes ]
+
+    transaction = data
       |> deserialize_header
-      |> deserialize_type(bytes)
-      |> parse_signatures(serialized)
+      |> deserialize_type
+      |> parse_signatures
 
     if !Map.has_key?(transaction, :amount) do
       transaction = Map.put(transaction, :amount, 0)
@@ -30,7 +47,9 @@ defmodule ArkEcosystem.Crypto.Deserialiser do
     transaction
   end
 
-  defp deserialize_header(bytes) do
+  defp deserialize_header(data) do
+    [serialized, bytes] = data
+
     <<
       _header             :: binary-size(1),
       version             :: little-unsigned-size(8),
@@ -62,60 +81,35 @@ defmodule ArkEcosystem.Crypto.Deserialiser do
         :timestamp => timestamp,
         :sender_public_key => sender_public_key |> Base.encode16(case: :lower),
         :fee => fee,
-        :vendor_field_hex => vendor_field_hex
+        :vendor_field_hex => vendor_field_hex,
+        :asset => %{}
       },
 
-      asset_offset
+      asset_offset,
+      serialized,
+      bytes
     ]
   end
 
-  defp deserialize_type(data, bytes) do
-    [ transaction, _ ] = data
+  defp deserialize_type(data) do
+    [ transaction, _, _, _ ] = data
 
     case transaction.type do
-      @delegate_registration -> deserialize_delegate_registration(data, bytes)
+      @transfer -> Transfer.deserialize(data)
+      @second_signature_registration -> SecondSignatureRegistration.deserialize(data)
+      @delegate_registration -> DelegateRegistration.deserialize(data)
+      @vote -> Vote.deserialize(data)
+      @multi_signature_registration -> MultiSignatureRegistration.deserialize(data)
+      @ipfs -> IPFS.deserialize(data)
+      @timelock_transfer -> TimelockTransfer.deserialize(data)
+      @multi_payment -> MultiPayment.deserialize(data)
+      @delegate_resignation -> DelegateResignation.deserialize(data)
     end
 
   end
 
-  defp deserialize_delegate_registration(data, bytes) do
-    [ transaction, asset_offset ] = data
-
-    offset = div(asset_offset, 2)
-
-    <<
-      _               :: binary-size(offset),
-      username_length :: little-integer-size(8),
-      _               :: binary
-    >> = bytes
-
-    <<
-      _               :: binary-size(offset),
-      _               :: binary-size(1),
-      username        :: binary-size(username_length),
-      _               :: binary
-    >> = bytes
-
-    payload = %{
-      :asset => %{
-        :delegate => %{
-          :username => username
-        }
-      }
-    }
-
-    IO.inspect asset_offset
-    start_offset = asset_offset + (username_length + 1) * 2
-
-    [
-      Map.merge(transaction, payload),
-      start_offset
-    ]
-
-  end
-
-  def parse_signatures(data, serialized) do
-    [ transaction, start_offset] = data
+  def parse_signatures(data) do
+    [ transaction, start_offset, serialized, _] = data
 
     <<
       _             :: binary-size(start_offset),
@@ -127,6 +121,8 @@ defmodule ArkEcosystem.Crypto.Deserialiser do
       transaction = Map.delete(transaction, :signature)
     else
 
+      IO.inspect "MOO"
+      IO.inspect signature
       # First Signature / Second Signature
       <<
         _                     :: binary-size(2),
@@ -173,14 +169,20 @@ defmodule ArkEcosystem.Crypto.Deserialiser do
         multi_signature_offset = multi_signature_offset + second_signature_length
       end
 
-
       # All Signatures
-      <<signatures :: binary-size(multi_signature_offset)>> = signature
+      <<
+        _           :: binary-size(start_offset),
+        _           :: binary-size(multi_signature_offset),
+        signatures  :: binary
+      >> = serialized
 
       if String.length(second_signature) > 0 and !String.starts_with?(second_signature, "ff") do
 
         # Parse Multi Signatures
-        << _ :: binary-size(2), multi_signature_bytes :: binary >> = signatures
+        <<
+          _                     :: binary-size(2),
+          multi_signature_bytes :: binary
+        >> = signatures
         multi_signatures = parse_multi_signatures(multi_signature_bytes, [])
 
         if length(multi_signatures) > 0 do
@@ -209,7 +211,7 @@ defmodule ArkEcosystem.Crypto.Deserialiser do
         rest      :: binary
       >> = bytes
 
-      signatures = signatures ++ signature
+      signatures = signatures ++ [signature]
       parse_multi_signatures(rest, signatures)
 
     else
@@ -226,26 +228,25 @@ defmodule ArkEcosystem.Crypto.Deserialiser do
       transaction = Map.put(transaction, :sign_signature, transaction.second_signature)
     end
 
-    IO.inspect transaction.type
-
     case transaction.type do
-      @second_signature ->
-        recipient_id = Crypto.public_key_to_address(transaction.sender_public_key)
+      @second_signature_registration ->
+        recipient_id = EcKey.public_key_to_address(transaction.sender_public_key)
         transaction = Map.put(transaction, :recipient_id, recipient_id)
 
       @vote ->
-        recipient_id = Crypto.public_key_to_address(transaction.sender_public_key)
+        recipient_id = EcKey.public_key_to_address(transaction.sender_public_key)
         transaction = Map.put(transaction, :recipient_id, recipient_id)
 
-      @multi_signature ->
+      @multi_signature_registration ->
         keysgroup = transaction.asset.multisignature.keysgroup
           |> Enum.map(fn(key) ->
               if String.starts_with?(key, "+"), do: key, else: "+" <> key
             end)
 
         transaction = Kernel.put_in(transaction, [:asset, :multisignature, :keysgroup], keysgroup)
+
       _ ->
-        IO.puts "yo"
+        true
     end
 
     if Map.has_key?(transaction, :vendor_field_hex) and byte_size(transaction.vendor_field_hex) > 0  do
