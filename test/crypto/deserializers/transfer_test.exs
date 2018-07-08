@@ -1,4 +1,4 @@
-defmodule ArkEcosystem.Crypto.Deserializer.TransferTest do
+defmodule ArkEcosystem.Crypto.Deserializers.TransferTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Deserializer
 
@@ -20,6 +20,5 @@ defmodule ArkEcosystem.Crypto.Deserializer.TransferTest do
     assert(actual.signature == transaction.signature)
     assert(actual.id == transaction.id)
   end
-
 
 end

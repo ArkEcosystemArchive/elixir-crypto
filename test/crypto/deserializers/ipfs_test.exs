@@ -1,4 +1,4 @@
-defmodule ArkEcosystem.Crypto.Deserializer.IPFSTest do
+defmodule ArkEcosystem.Crypto.Deserializers.IPFSTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Deserializer
 
@@ -10,6 +10,5 @@ defmodule ArkEcosystem.Crypto.Deserializer.IPFSTest do
     actual = Deserializer.deserialize(transaction)
     assert(actual.id == transaction.id)
   end
-
 
 end

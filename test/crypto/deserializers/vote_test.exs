@@ -1,4 +1,4 @@
-defmodule ArkEcosystem.Crypto.Deserializer.VoteTest do
+defmodule ArkEcosystem.Crypto.Deserializers.VoteTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Deserializer
 
@@ -20,6 +20,5 @@ defmodule ArkEcosystem.Crypto.Deserializer.VoteTest do
     assert(actual.asset.votes == transaction.asset.votes)
     assert(actual.id == transaction.id)
   end
-
 
 end

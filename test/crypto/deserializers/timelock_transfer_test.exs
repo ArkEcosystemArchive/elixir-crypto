@@ -1,4 +1,4 @@
-defmodule ArkEcosystem.Crypto.Deserializer.TimelockTransferTest do
+defmodule ArkEcosystem.Crypto.Deserializers.TimelockTransferTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Deserializer
 

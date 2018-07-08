@@ -1,4 +1,4 @@
-defmodule ArkEcosystem.Crypto.Deserializer.MultiPaymentTest do
+defmodule ArkEcosystem.Crypto.Deserializers.MultiPaymentTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Deserializer
 
@@ -10,6 +10,5 @@ defmodule ArkEcosystem.Crypto.Deserializer.MultiPaymentTest do
     actual = Deserializer.deserialize(transaction)
     assert(actual.id == transaction.id)
   end
-
 
 end

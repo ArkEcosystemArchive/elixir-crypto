@@ -1,4 +1,4 @@
-defmodule ArkEcosystem.Crypto.Deserializer.SecondSignatureRegistrationTest do
+defmodule ArkEcosystem.Crypto.Deserializers.SecondSignatureRegistrationTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Deserializer
 
