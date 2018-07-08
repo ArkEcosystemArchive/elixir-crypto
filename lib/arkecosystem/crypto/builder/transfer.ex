@@ -1,19 +1,17 @@
-defmodule ArkEcosystem.Crypto.Transactions.Transfer do
+defmodule ArkEcosystem.Crypto.Builder.Transfer do
   alias ArkEcosystem.Crypto.Crypto
   alias ArkEcosystem.Crypto.Utils.EcKey
-  alias ArkEcosystem.Crypto.Transactions.Transaction
-  alias ArkEcosystem.Crypto.Transactions.Enums.{Fees, Types}
+  alias ArkEcosystem.Crypto.Builder.Transaction
+  alias ArkEcosystem.Crypto.Enums.{Fees, Types}
 
   @spec create(String.t(), Integer.t(), String.t(), String.t(), String.t()) :: Map.t()
   def create(recipient_id, amount, vendor_field, secret, second_secret \\ nil) do
-    key = EcKey.get_private_key(secret)
-
     transaction = %{
       id: nil,
       timestamp: Crypto.seconds_since_epoch(),
       type: Types.transfer(),
       fee: Fees.transfer(),
-      sender_public_key: EcKey.private_key_to_public_key(key),
+      sender_public_key: EcKey.secret_to_public_key(secret),
       signature: nil,
       sign_signature: nil,
       amount: amount,

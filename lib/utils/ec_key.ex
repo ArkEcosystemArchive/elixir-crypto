@@ -44,9 +44,7 @@ defmodule ArkEcosystem.Crypto.Utils.EcKey do
     |> private_key_to_address(network_address)
   end
 
-  # private
-
-  defp public_key_to_address(public_key, network_address) do
+  def public_key_to_address(public_key, network_address \\ 0x1e) do
     public_key = Base.decode16(public_key, case: :lower)
     ripemd_public_key = :crypto.hash(:ripemd160, elem(public_key, 1))
     Base58Check.encode58check(network_address, ripemd_public_key)

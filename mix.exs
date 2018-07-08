@@ -24,7 +24,8 @@ defmodule ArkEcosystem.Crypto.MixProject do
       {:base58, "~> 0.1.0"},
       {:exbtc, "~> 0.1.3"},
       {:hackney, "~> 1.10"},
-      {:temp, "~> 0.4"},
+      {:temp, "~> 0.4.5"},
+      {:jason, "~> 1.1"},
 
       {:mock, "~> 0.3.0", only: :test}
     ]

@@ -1,6 +1,6 @@
-defmodule ArkEcosystem.Crypto.Transactions.Transaction do
+defmodule ArkEcosystem.Crypto.Builder.Transaction do
   alias ArkEcosystem.Crypto.Utils.{Base58Check, EcKey}
-  alias ArkEcosystem.Crypto.Transactions.Enums.Types
+  alias ArkEcosystem.Crypto.Enums.Types
 
   @delegate Types.delegate_registration()
   @multisignature Types.multi_signature_registration()
@@ -126,7 +126,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
     get_asset_info(%{asset: nil, type: type})
   end
 
-  defp get_bytes(
+  def get_bytes(
          transaction,
          skip_signature \\ true,
          skip_second_signature \\ true

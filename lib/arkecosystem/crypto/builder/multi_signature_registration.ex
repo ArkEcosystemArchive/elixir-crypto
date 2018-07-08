@@ -1,10 +1,10 @@
-defmodule ArkEcosystem.Crypto.Transactions.MultiSignatureRegistration do
+defmodule ArkEcosystem.Crypto.Builder.MultiSignatureRegistration do
   alias ArkEcosystem.Crypto.Crypto
   alias ArkEcosystem.Crypto.Utils.EcKey
-  alias ArkEcosystem.Crypto.Transactions.Transaction
-  alias ArkEcosystem.Crypto.Transactions.Enums.{Fees, Types}
+  alias ArkEcosystem.Crypto.Builder.Transaction
+  alias ArkEcosystem.Crypto.Enums.{Fees, Types}
 
-  @spec create(String.t(), String.t(), List.t(), Integer.t(), Integer.t()) :: Map.t()
+  @spec create(String.t(), String.t(), Keyword.t(), Integer.t(), Integer.t()) :: Map.t()
   def create(secret, second_secret, keysgroup, lifetime, min) do
     key = EcKey.get_private_key(secret)
 

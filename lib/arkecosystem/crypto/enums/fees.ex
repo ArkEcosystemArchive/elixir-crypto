@@ -1,4 +1,4 @@
-defmodule ArkEcosystem.Crypto.Transactions.Enums.Fees do
+defmodule ArkEcosystem.Crypto.Enums.Fees do
   def transfer do
     Application.get_env(:ark_crypto, :transactions)[:transfer_fee]
   end
