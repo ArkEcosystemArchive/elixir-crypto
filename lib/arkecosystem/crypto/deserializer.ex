@@ -23,11 +23,8 @@ defmodule ArkEcosystem.Crypto.Deserializer do
   @delegate_resignation Types.delegate_resignation()
 
   def deserialize(%{serialized: serialized}) when is_bitstring(serialized) do
-    IO.puts serialized
-
     bytes = Base.decode16!(serialized, case: :lower)
     { bytes, serialized }
-    IO.inspect bytes
 
     data = [ serialized, bytes ]
 
@@ -122,8 +119,6 @@ defmodule ArkEcosystem.Crypto.Deserializer do
 
     else
 
-      IO.inspect "MOO"
-      IO.inspect signature
       # First Signature / Second Signature
       <<
         _                     :: binary-size(2),
@@ -198,8 +193,6 @@ defmodule ArkEcosystem.Crypto.Deserializer do
 
       transaction
     end
-
-    IO.inspect transaction
 
     transaction
   end
