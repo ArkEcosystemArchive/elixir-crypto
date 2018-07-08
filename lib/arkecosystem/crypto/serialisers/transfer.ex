@@ -10,7 +10,7 @@ defmodule ArkEcosystem.Crypto.Serializers.Transfer do
       << 0::little-unsigned-integer-size(32) >>
     end
 
-    recipient_id = transaction.recipientId
+    recipient_id = transaction.recipient_id
       |> Base58Check.decode58check
 
     bytes

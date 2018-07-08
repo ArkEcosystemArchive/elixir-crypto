@@ -5,6 +5,7 @@ defmodule ArkEcosystem.Crypto.Serializers.TransferTest do
   test "should be ok" do
     transaction = File.read!("test/fixtures/transactions/transfer.json")
       |> Jason.decode!(%{ :keys => :atoms })
+      |> ArkEcosystem.Crypto.Utils.Underscorer.underscore
 
     actual = Serializer.serialize(transaction)
     assert(actual == transaction.serialized)
