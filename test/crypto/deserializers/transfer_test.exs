@@ -6,6 +6,10 @@ defmodule ArkEcosystem.Crypto.Deserializers.TransferTest do
     transaction = File.read!("test/fixtures/transactions/transfer.json")
       |> Jason.decode!(%{ :keys => :atoms })
 
+    ArkEcosystem.Crypto.Configuration.Network.set(
+      ArkEcosystem.Crypto.Networks.Devnet
+    )
+
     actual = Deserializer.deserialize(transaction)
 
     assert(actual.version == transaction.version)

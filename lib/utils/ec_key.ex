@@ -26,7 +26,9 @@ defmodule ArkEcosystem.Crypto.Utils.EcKey do
     |> BtcCore.compress()
   end
 
-  def private_key_to_address(private_key, network_address \\ 0x17) do
+  def private_key_to_address(private_key, network_address \\ nil) do
+    network_address = network_address || ArkEcosystem.Crypto.Configuration.Network.version
+
     private_key
     |> private_key_to_public_key
     |> public_key_to_address(network_address)
@@ -38,13 +40,17 @@ defmodule ArkEcosystem.Crypto.Utils.EcKey do
     |> private_key_to_public_key
   end
 
-  def secret_to_address(secret, network_address \\ 0x17) do
+  def secret_to_address(secret, network_address \\ nil) do
+    network_address = network_address || ArkEcosystem.Crypto.Configuration.Network.version
+
     secret
     |> get_private_key
     |> private_key_to_address(network_address)
   end
 
-  def public_key_to_address(public_key, network_address \\ 0x1e) do
+  def public_key_to_address(public_key, network_address \\ nil) do
+    network_address = network_address || ArkEcosystem.Crypto.Configuration.Network.version
+
     public_key = Base.decode16(public_key, case: :lower)
     ripemd_public_key = :crypto.hash(:ripemd160, elem(public_key, 1))
     Base58Check.encode58check(network_address, ripemd_public_key)

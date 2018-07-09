@@ -6,6 +6,10 @@ defmodule ArkEcosystem.Crypto.Serializers.VoteTest do
     transaction = File.read!("test/fixtures/transactions/vote.json")
       |> Jason.decode!(%{ :keys => :atoms })
 
+    ArkEcosystem.Crypto.Configuration.Network.set(
+      ArkEcosystem.Crypto.Networks.Devnet
+    )
+
     actual = Serializer.serialize(transaction)
     assert(actual == transaction.serialized)
   end

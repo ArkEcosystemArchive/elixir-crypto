@@ -7,6 +7,10 @@ defmodule ArkEcosystem.Crypto.Deserializers.DelegateResignationTest do
     transaction = File.read!("test/fixtures/transactions/delegate_resignation.json")
       |> Jason.decode!(%{ :keys => :atoms })
 
+    ArkEcosystem.Crypto.Configuration.Network.set(
+      ArkEcosystem.Crypto.Networks.Devnet
+    )
+
     actual = Deserializer.deserialize(transaction)
     assert(actual.id == transaction.id)
   end
