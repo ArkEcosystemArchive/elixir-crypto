@@ -6,6 +6,7 @@ defmodule ArkEcosystem.Crypto.Serializers.MultiPaymentTest do
   test "should be ok" do
     transaction = File.read!("test/fixtures/transactions/multi_payment.json")
       |> Jason.decode!(%{ :keys => :atoms })
+      |> ArkEcosystem.Crypto.Utils.Underscorer.underscore
 
     ArkEcosystem.Crypto.Configuration.Network.set(
       ArkEcosystem.Crypto.Networks.Devnet

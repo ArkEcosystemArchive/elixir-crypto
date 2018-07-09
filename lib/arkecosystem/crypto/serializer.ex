@@ -21,8 +21,6 @@ defmodule ArkEcosystem.Crypto.Serializer do
   @delegate_resignation Types.delegate_resignation()
 
 
-  # TODO: All keys are camelCase as received from json,
-  # need to convert them to snake_case
   def serialize(transaction) when is_map transaction do
 
     transaction
@@ -45,7 +43,7 @@ defmodule ArkEcosystem.Crypto.Serializer do
     network = << transaction.network::little-unsigned-integer-size(8) >>
     type = << transaction.type::little-unsigned-integer-size(8) >>
     timestamp = << transaction.timestamp::little-unsigned-integer-size(32) >>
-    sender_public_key = transaction.senderPublicKey
+    sender_public_key = transaction.sender_public_key
       |> Base.decode16!(case: :lower)
 
     fee = << transaction.fee::little-unsigned-integer-size(64) >>
@@ -62,16 +60,16 @@ defmodule ArkEcosystem.Crypto.Serializer do
   defp serialize_vendor_field(bytes, transaction) do
 
     bytes <> cond do
-      Map.has_key?(transaction, :vendorField) ->
-        length = byte_size transaction.vendorField
+      Map.has_key?(transaction, :vendor_field) ->
+        length = byte_size transaction.vendor_field
         << length::little-unsigned-integer-size(length) >>
-        <> transaction.vendorField
+        <> transaction.vendor_field
 
-      Map.has_key?(transaction, :vendorFieldHex) ->
-        length = byte_size transaction.vendorFieldHex
+      Map.has_key?(transaction, :vendor_field_hex) ->
+        length = byte_size transaction.vendor_field_hex
 
         << length::little-unsigned-integer-size(8) >>
-        <> transaction.vendorFieldHex
+        <> transaction.vendor_field_hex
 
       true ->
         << 0::little-unsigned-integer-size(8) >>
@@ -106,12 +104,12 @@ defmodule ArkEcosystem.Crypto.Serializer do
     end
 
     second_signature = cond do
-      Map.has_key?(transaction, :secondSignature) ->
-        transaction.secondSignature
+      Map.has_key?(transaction, :second_signature) ->
+        transaction.second_signature
           |>Base.decode16!(case: :lower)
 
-      Map.has_key?(transaction, :signSignature) ->
-        transaction.signSignature
+      Map.has_key?(transaction, :sign_signature) ->
+        transaction.sign_signature
           |>Base.decode16!(case: :lower)
 
       true ->

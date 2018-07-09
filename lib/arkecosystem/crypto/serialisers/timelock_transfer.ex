@@ -7,7 +7,7 @@ defmodule ArkEcosystem.Crypto.Serializers.TimelockTransfer do
     timelocktype = << transaction.timelocktype::little-unsigned-integer-size(8) >>
     timelock = << transaction.timelock::little-unsigned-integer-size(32) >>
 
-    recipient_id = transaction.recipientId
+    recipient_id = transaction.recipient_id
       |> Base58Check.decode58check
 
     bytes
