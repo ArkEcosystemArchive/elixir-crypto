@@ -1,5 +1,5 @@
 defmodule ArkEcosystem.Crypto.Crypto do
-  alias ArkEcosystem.Crypto.Utils.Base58Check
+  alias ArkEcosystem.Crypto.Utils.{EcKey, Base58Check}
   alias ArkEcosystem.Crypto.Enums.Types
 
   @second_signature_registration Types.second_signature_registration()
@@ -7,26 +7,48 @@ defmodule ArkEcosystem.Crypto.Crypto do
   @vote Types.vote()
   @multi_signature_registration Types.multi_signature_registration()
 
-  # 13:00:00 March 21, 2017
-  @ark_epoch Application.get_env(:ark_crypto, :transactions)[:epoch]
-
-  @doc """
-  Unix timestamp representing the seconds between the Unix Epoch and the Ark
-  Epoch. Add this to the timestamps received from the API to make them UNIX.
-  """
-  @spec ark_epoch() :: Integer.t()
-  def ark_epoch do
-    @ark_epoch
-  end
-
-  @spec seconds_since_epoch() :: Integer.t()
-  def seconds_since_epoch do
-    :os.system_time(:seconds) - @ark_epoch
-  end
-
   def get_id(transaction) do
     bytes = get_bytes(transaction, false, false)
     :sha256 |> :crypto.hash(bytes) |> Base.encode16(case: :lower)
+  end
+
+  def sign_transaction(transaction, secret, second_secret \\ nil) when is_map(transaction) do
+    transaction
+      |> sign(secret)
+      |> second_sign(second_secret)
+  end
+
+  def sign(transaction, secret) do
+    public_key = EcKey.secret_to_public_key(secret)
+    transaction = Map.put(transaction, :sender_public_key, public_key)
+    signature = calc_signature(transaction, secret)
+    id = get_id(transaction)
+
+    transaction
+      |> Map.put(:signature, signature)
+      |> Map.put(:id, id)
+  end
+
+  def second_sign(transaction, nil) do
+    transaction
+  end
+
+  def second_sign(transaction, second_secret) do
+    sign_signature = calc_signature(transaction, second_secret, true)
+    transaction
+      |> Map.put(:sign_signature, sign_signature)
+  end
+
+  # TODO: fix verify
+  def verify(transaction) do
+    get_bytes(transaction)
+      #|> EcKey.ecdsa_verify(transaction.signature, transaction.sender_public_key)
+  end
+
+  # TODO: fix verify
+  def second_verify(transaction) do
+    get_bytes(transaction, false)
+      #|> EcKey.ecdsa_verify(transaction.sign_signature, transaction.sender_public_key)
   end
 
   def get_bytes(transaction, skip_signature \\ true, skip_second_signature \\ true) do
@@ -41,9 +63,21 @@ defmodule ArkEcosystem.Crypto.Crypto do
       String.duplicate(<<0>>, 21)
     end
 
-    # TODO: fix vendor field
     vendor_field = if Map.has_key?(transaction, :vendor_field) do
-      #
+
+      length = byte_size transaction.vendor_field
+      cond do
+        length < 64 ->
+          diff = 64 - length
+          transaction.vendor_field <> String.duplicate(<<0>>, diff)
+
+        length > 64 ->
+          String.slice(transaction, 0..63)
+
+        true ->
+          transaction.vendor_field
+      end
+
     else
       String.duplicate(<<0>>, 64)
     end
@@ -106,6 +140,12 @@ defmodule ArkEcosystem.Crypto.Crypto do
   def encode58(data) when is_binary data do
     data
       |> Base58Check.encode58check(<<>>)
+  end
+
+  defp calc_signature(transaction, secret, second \\ false) do
+    transaction
+      |> get_bytes(not second)
+      |> EcKey.sign(secret)
   end
 
 end
