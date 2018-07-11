@@ -27,8 +27,6 @@ defmodule ArkEcosystem.Crypto.Utils.EcKey do
   end
 
   def private_key_to_address(private_key, network_address \\ nil) do
-    network_address = network_address || ArkEcosystem.Crypto.Configuration.Network.version
-
     private_key
     |> private_key_to_public_key
     |> public_key_to_address(network_address)
@@ -41,8 +39,6 @@ defmodule ArkEcosystem.Crypto.Utils.EcKey do
   end
 
   def secret_to_address(secret, network_address \\ nil) do
-    network_address = network_address || ArkEcosystem.Crypto.Configuration.Network.version
-
     secret
     |> get_private_key
     |> private_key_to_address(network_address)
