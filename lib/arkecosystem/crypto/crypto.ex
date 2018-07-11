@@ -39,16 +39,14 @@ defmodule ArkEcosystem.Crypto.Crypto do
       |> Map.put(:sign_signature, sign_signature)
   end
 
-  # TODO: fix verify
   def verify(transaction) do
     get_bytes(transaction)
-      #|> EcKey.ecdsa_verify(transaction.signature, transaction.sender_public_key)
+      |> EcKey.verify(transaction.signature, transaction.sender_public_key)
   end
 
-  # TODO: fix verify
-  def second_verify(transaction) do
+  def second_verify(transaction, second_public_key) do
     get_bytes(transaction, false)
-      #|> EcKey.ecdsa_verify(transaction.sign_signature, transaction.sender_public_key)
+      |> EcKey.verify(transaction.sign_signature, second_public_key)
   end
 
   def get_bytes(transaction, skip_signature \\ true, skip_second_signature \\ true) do

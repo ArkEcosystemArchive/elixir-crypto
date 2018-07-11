@@ -12,8 +12,15 @@ defmodule ArkEcosystem.Crypto.Utils.EcKey do
       )
 
     r
-    |> Der.encode_sequence(s)
-    |> Base.encode16(case: :lower)
+      |> Der.encode_sequence(s)
+      |> Base.encode16(case: :lower)
+  end
+
+  def verify(message, signature, public_key) do
+    message = :crypto.hash(:sha256, message)
+    signature = Base.decode16!(signature, case: :lower)
+    public_key = Base.decode16!(public_key, case: :lower)
+    :crypto.verify(:ecdsa, :sha256, {:digest, message}, signature, [public_key, :secp256k1])
   end
 
   def get_private_key(secret) do
@@ -51,4 +58,5 @@ defmodule ArkEcosystem.Crypto.Utils.EcKey do
     ripemd_public_key = :crypto.hash(:ripemd160, elem(public_key, 1))
     Base58Check.encode58check(network_address, ripemd_public_key)
   end
+
 end
