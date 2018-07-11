@@ -21,12 +21,12 @@ defmodule ArkEcosystem.Crypto.Crypto do
   def sign(transaction, secret) do
     public_key = EcKey.secret_to_public_key(secret)
     transaction = Map.put(transaction, :sender_public_key, public_key)
-    signature = calc_signature(transaction, secret)
-    id = get_id(transaction)
 
-    transaction
-      |> Map.put(:signature, signature)
-      |> Map.put(:id, id)
+    signature = calc_signature(transaction, secret)
+    transaction = Map.put(transaction, :signature, signature)
+
+    id = get_id(transaction)
+    Map.put(transaction, :id, id)
   end
 
   def second_sign(transaction, nil) do
