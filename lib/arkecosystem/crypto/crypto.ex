@@ -55,7 +55,7 @@ defmodule ArkEcosystem.Crypto.Crypto do
     sender_public_key = transaction.sender_public_key
       |> Base.decode16!(case: :lower)
 
-    recipient_id = if Map.has_key?(transaction, :recipient_id) do
+    recipient_id = if Map.has_key?(transaction, :recipient_id) && not is_nil(transaction.recipient_id) do
       Base58Check.decode58check(transaction.recipient_id)
     else
       String.duplicate(<<0>>, 21)
