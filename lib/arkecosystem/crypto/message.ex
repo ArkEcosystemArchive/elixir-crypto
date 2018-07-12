@@ -12,9 +12,6 @@ defmodule ArkEcosystem.Crypto.Message do
 
   @spec verify(String.t(), String.t(), String.t()) :: Boolean.t()
   def verify(message, signature, public_key) do
-
-    key = EcKey.pubkey_from_hex(public_key)
-    hash = Base.encode16(:crypto.hash(:sha256, message), case: :lower)
-    EcKey.verify_message(hash, signature, key)
+    EcKey.verify(message, signature, public_key)
   end
 end

@@ -51,15 +51,6 @@ defmodule ArkEcosystem.Crypto.Utils.EcKey do
     |> private_key_to_address(network_address)
   end
 
-  def pubkey_from_hex(public_key) do
-    BtcCore.decompress(public_key)
-  end
-
-  def verify_message(message, signature, public_key) do
-    sig = BtcCore.decode_sig(signature)
-    BtcCore.ecdsa_raw_verify(message, sig, public_key)
-  end
-
   def public_key_to_address(public_key, network_address \\ nil) do
     network_address = network_address || ArkEcosystem.Crypto.Configuration.Network.version
 
