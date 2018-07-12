@@ -232,8 +232,9 @@ defmodule ArkEcosystem.Crypto.Deserializer do
 
     transaction = case transaction.type do
       @second_signature_registration ->
-        recipient_id = EcKey.public_key_to_address(transaction.sender_public_key, transaction.network)
-        Map.put(transaction, :recipient_id, recipient_id)
+        # https://github.com/ArkEcosystem/core/issues/754
+        # recipient_id = EcKey.public_key_to_address(transaction.sender_public_key, transaction.network)
+        Map.put(transaction, :recipient_id, nil)
 
       @vote ->
         recipient_id = EcKey.public_key_to_address(transaction.sender_public_key, transaction.network)
