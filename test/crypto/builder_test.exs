@@ -43,7 +43,7 @@ defmodule ArkEcosystem.Crypto.BuilderTest do
     second_public_key_address = EcKey.secret_to_public_key(context[:second_secret])
 
     assert(Crypto.verify(transaction) == true)
-    assert(Crypto.second_verify(second_public_key_address) == true)
+    assert(Crypto.second_verify(transaction, second_public_key_address) == true)
   end
 
   test "should build vote and verify", context do
@@ -66,7 +66,7 @@ defmodule ArkEcosystem.Crypto.BuilderTest do
     second_public_key_address = EcKey.secret_to_public_key(context[:second_secret])
 
     assert(Crypto.verify(transaction) == true)
-    assert(Crypto.second_verify(second_public_key_address) == true)
+    assert(Crypto.second_verify(transaction, second_public_key_address) == true)
   end
 
   test "should build second signature registration and verify", context do
@@ -77,7 +77,7 @@ defmodule ArkEcosystem.Crypto.BuilderTest do
     second_public_key_address = EcKey.secret_to_public_key(context[:second_secret])
 
     assert(Crypto.verify(transaction) == true)
-    assert(Crypto.second_verify(second_public_key_address) == true)
+    assert(Crypto.second_verify(transaction, second_public_key_address) == true)
   end
 
   test "should build delegate registration and verify", context do
@@ -96,7 +96,7 @@ defmodule ArkEcosystem.Crypto.BuilderTest do
     second_public_key_address = EcKey.secret_to_public_key(context[:second_secret])
 
     assert(Crypto.verify(transaction) == true)
-    assert(Crypto.second_verify(second_public_key_address) == true)
+    assert(Crypto.second_verify(transaction, second_public_key_address) == true)
   end
 
 end

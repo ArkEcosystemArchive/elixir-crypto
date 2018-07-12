@@ -27,7 +27,6 @@ defmodule ArkEcosystem.Crypto.MixProject do
       {:temp, "~> 0.4.5"},
       {:jason, "~> 1.1"},
       {:kvx, "~> 0.1"},
-
       {:mock, "~> 0.3.0", only: :test}
     ]
   end
