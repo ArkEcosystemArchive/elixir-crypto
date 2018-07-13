@@ -24,3 +24,6 @@ ark_elixir-*.tar
 
 # Ignore package lock file
 mix.lock
+
+# Ignore osx .DS_Store
+.DS_Store

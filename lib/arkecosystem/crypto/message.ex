@@ -12,8 +12,6 @@ defmodule ArkEcosystem.Crypto.Message do
 
   @spec verify(String.t(), String.t(), String.t()) :: Boolean.t()
   def verify(message, signature, public_key) do
-    IO.puts(message)
-    IO.puts(signature)
-    IO.puts(public_key)
+    EcKey.verify(message, signature, public_key)
   end
 end
