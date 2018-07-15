@@ -1,19 +1,22 @@
 defmodule ArkEcosystem.Crypto.Serializers.IPFSTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Serializer
+  alias ArkEcosystem.Test.TestHelper
 
-  @tag :skip
-  test "should be ok" do
-    transaction = File.read!("test/fixtures/transactions/ipfs.json")
-      |> Jason.decode!(%{ :keys => :atoms })
-      |> ArkEcosystem.Crypto.Utils.Underscorer.underscore
-
+  setup_all do
     ArkEcosystem.Crypto.Configuration.Network.set(
       ArkEcosystem.Crypto.Networks.Devnet
     )
 
-    actual = Serializer.serialize(transaction)
-    assert(actual == transaction.serialized)
+    :ok
+  end
+
+  @tag :skip
+  test "should be ok" do
+    fixture = TestHelper.read_transaction_fixture("ipfs", "passphrase")
+    actual = Serializer.serialize(fixture.data, %{ underscore: true })
+
+    assert(actual == fixture.serialized)
   end
 
 end

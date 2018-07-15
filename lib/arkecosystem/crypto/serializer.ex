@@ -1,5 +1,7 @@
 defmodule ArkEcosystem.Crypto.Serializer do
   alias ArkEcosystem.Crypto.Enums.Types
+  alias ArkEcosystem.Crypto.Utils.Underscorer
+  alias ArkEcosystem.Crypto.Configuration.Network
   alias ArkEcosystem.Crypto.Serializers.Transfer
   alias ArkEcosystem.Crypto.Serializers.SecondSignatureRegistration
   alias ArkEcosystem.Crypto.Serializers.DelegateRegistration
@@ -20,9 +22,12 @@ defmodule ArkEcosystem.Crypto.Serializer do
   @multi_payment Types.multi_payment()
   @delegate_resignation Types.delegate_resignation()
 
+  def serialize(transaction, %{ underscore: underscore }) when is_map(transaction) do
+    (if underscore, do: Underscorer.underscore(transaction), else: transaction)
+      |> serialize
+  end
 
-  def serialize(transaction) when is_map transaction do
-
+  def serialize(transaction) when is_map(transaction) do
     transaction
       |> serialize_header
       |> serialize_vendor_field(transaction)
@@ -40,7 +45,12 @@ defmodule ArkEcosystem.Crypto.Serializer do
       << 1::little-unsigned-integer-size(8) >>
     end
 
-    network = << transaction.network::little-unsigned-integer-size(8) >>
+    network = if Map.has_key?(transaction, :network) do
+      << transaction.network::little-unsigned-integer-size(8) >>
+    else
+      Network.version()
+    end
+
     type = << transaction.type::little-unsigned-integer-size(8) >>
     timestamp = << transaction.timestamp::little-unsigned-integer-size(32) >>
     sender_public_key = transaction.sender_public_key

@@ -1,31 +1,26 @@
 defmodule ArkEcosystem.Crypto.Deserializers.MultiSignatureRegistrationTest do
-  use ExUnit.Case, async: false
-  alias ArkEcosystem.Crypto.Deserializer
+    use ExUnit.Case, async: false
+    alias ArkEcosystem.Crypto.Deserializer
+    alias ArkEcosystem.Test.TestHelper
 
-  test "should be ok" do
-    transaction = File.read!("test/fixtures/transactions/multi_signature_registration.json")
-      |> Jason.decode!(%{ :keys => :atoms })
+    test "should be ok if signed with a passphrase" do
+      fixture = TestHelper.read_transaction_fixture("multi_signature_registration", "passphrase")
+      actual = Deserializer.deserialize(fixture)
 
-    ArkEcosystem.Crypto.Configuration.Network.set(
-      ArkEcosystem.Crypto.Networks.Devnet
-    )
+      assert(actual.version == 1)
+      assert(actual.network == 23)
+      assert(actual.type == fixture.data.type)
+      assert(actual.timestamp == fixture.data.timestamp)
+      assert(actual.sender_public_key == fixture.data.senderPublicKey)
+      assert(actual.fee == fixture.data.fee)
+      assert(actual.amount == fixture.data.amount)
+      assert(actual.id == fixture.data.id)
+      assert(actual.signature == fixture.data.signature)
+      assert(actual.sign_signature == fixture.data.signSignature)
+      assert(actual.signatures == fixture.data.signatures)
+      assert(actual.asset.multisignature.keysgroup == fixture.data.asset.multisignature.keysgroup)
+      assert(actual.asset.multisignature.min == fixture.data.asset.multisignature.min)
+      assert(actual.asset.multisignature.lifetime == fixture.data.asset.multisignature.lifetime)
+    end
 
-    actual = Deserializer.deserialize(transaction)
-    assert(actual.version == transaction.version)
-    assert(actual.network == transaction.network)
-    assert(actual.type == transaction.type)
-    assert(actual.timestamp == transaction.timestamp)
-    assert(actual.sender_public_key == transaction.senderPublicKey)
-    assert(actual.fee == transaction.fee)
-    assert(actual.amount == transaction.amount)
-    assert(actual.signature == transaction.signature)
-    assert(actual.sign_signature == transaction.signSignature)
-    assert(actual.signatures == transaction.signatures)
-    assert(actual.asset.multisignature.keysgroup == transaction.asset.multisignature.keysgroup)
-    assert(actual.asset.multisignature.min == transaction.asset.multisignature.min)
-    assert(actual.asset.multisignature.lifetime == transaction.asset.multisignature.lifetime)
-
-    assert(actual.id == transaction.id)
   end
-
-end

@@ -78,7 +78,7 @@ defmodule ArkEcosystem.Crypto.Deserializer do
         :timestamp => timestamp,
         :sender_public_key => sender_public_key |> Base.encode16(case: :lower),
         :fee => fee,
-        :vendor_field_hex => vendor_field_hex,
+        :vendor_field_hex => vendor_field_hex |> Base.encode16(case: :lower),
         :asset => %{}
       },
 
@@ -151,14 +151,14 @@ defmodule ArkEcosystem.Crypto.Deserializer do
           _                       :: binary-size(2),
           second_signature_length :: binary-size(2),
           _                       :: binary
-        >> = signature
+        >> = second_signature
 
         second_signature_length = calc_signature_size(second_signature_length)
 
         <<
-          second_signature_data  :: binary-size(second_signature_length),
-          _                 :: binary
-        >> = transaction.second_signature
+          second_signature_data   :: binary-size(second_signature_length),
+          _                       :: binary
+        >> = second_signature
 
         # Multi Signature
         multi_signature_offset = multi_signature_offset + second_signature_length
@@ -172,7 +172,7 @@ defmodule ArkEcosystem.Crypto.Deserializer do
         signatures  :: binary
       >> = serialized
 
-      transaction = if String.length(second_signature) > 0 and !String.starts_with?(second_signature, "ff") do
+      transaction = if String.length(signatures) > 0 and String.starts_with?(signatures, "ff") do
 
         # Parse Multi Signatures
         <<
@@ -231,11 +231,6 @@ defmodule ArkEcosystem.Crypto.Deserializer do
     end
 
     transaction = case transaction.type do
-      @second_signature_registration ->
-        # https://github.com/ArkEcosystem/core/issues/754
-        # recipient_id = EcKey.public_key_to_address(transaction.sender_public_key, transaction.network)
-        Map.put(transaction, :recipient_id, nil)
-
       @vote ->
         recipient_id = EcKey.public_key_to_address(transaction.sender_public_key, transaction.network)
         Map.put(transaction, :recipient_id, recipient_id)
@@ -259,11 +254,22 @@ defmodule ArkEcosystem.Crypto.Deserializer do
       transaction
     end
 
-    if !Map.has_key?(transaction, :id) do
+    transaction = if !Map.has_key?(transaction, :id) do
       id = Crypto.get_id(transaction)
       Map.put(transaction, :id, id)
     else
       transaction
+    end
+
+
+    # Calculate recipient_id after the transaction id has been computed, because of
+    # https://github.com/ArkEcosystem/core/issues/754
+    case transaction.type do
+      type when type in [@second_signature_registration, @multi_signature_registration] ->
+        recipient_id = EcKey.public_key_to_address(transaction.sender_public_key, transaction.network)
+        Map.put(transaction, :recipient_id, recipient_id)
+      _ ->
+        transaction
     end
 
   end

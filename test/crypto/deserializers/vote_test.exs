@@ -1,28 +1,41 @@
 defmodule ArkEcosystem.Crypto.Deserializers.VoteTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Deserializer
+  alias ArkEcosystem.Test.TestHelper
 
-  test "should be ok" do
-    transaction = File.read!("test/fixtures/transactions/vote.json")
-      |> Jason.decode!(%{ :keys => :atoms })
+  test "should be ok if signed with a passphrase" do
+    fixture = TestHelper.read_transaction_fixture("vote", "passphrase")
+    actual = Deserializer.deserialize(fixture)
 
-    ArkEcosystem.Crypto.Configuration.Network.set(
-      ArkEcosystem.Crypto.Networks.Devnet
-    )
+    assert(actual.version == 1)
+    assert(actual.network == 30)
+    assert(actual.type == fixture.data.type)
+    assert(actual.timestamp == fixture.data.timestamp)
+    assert(actual.sender_public_key == fixture.data.senderPublicKey)
+    assert(actual.fee == fixture.data.fee)
+    assert(actual.signature == fixture.data.signature)
+    assert(actual.amount == fixture.data.amount)
+    assert(actual.recipient_id == fixture.data.recipientId)
+    assert(actual.id == fixture.data.id)
+    assert(actual.asset.votes == fixture.data.asset.votes)
+  end
 
-    actual = Deserializer.deserialize(transaction)
+  test "should be ok if signed with a second passphrase" do
+    fixture = TestHelper.read_transaction_fixture("vote", "second-passphrase")
+    actual = Deserializer.deserialize(fixture)
 
-    assert(actual.version == transaction.version)
-    assert(actual.network == transaction.network)
-    assert(actual.type == transaction.type)
-    assert(actual.timestamp == transaction.timestamp)
-    assert(actual.sender_public_key == transaction.senderPublicKey)
-    assert(actual.fee == transaction.fee)
-    assert(actual.signature == transaction.signature)
-    assert(actual.amount == transaction.amount)
-    assert(actual.recipient_id == transaction.recipientId)
-    assert(actual.asset.votes == transaction.asset.votes)
-    assert(actual.id == transaction.id)
+    assert(actual.version == 1)
+    assert(actual.network == 30)
+    assert(actual.type == fixture.data.type)
+    assert(actual.timestamp == fixture.data.timestamp)
+    assert(actual.sender_public_key == fixture.data.senderPublicKey)
+    assert(actual.fee == fixture.data.fee)
+    assert(actual.signature == fixture.data.signature)
+    assert(actual.sign_signature == fixture.data.signSignature)
+    assert(actual.amount == fixture.data.amount)
+    assert(actual.recipient_id == fixture.data.recipientId)
+    assert(actual.id == fixture.data.id)
+    assert(actual.asset.votes == fixture.data.asset.votes)
   end
 
 end
