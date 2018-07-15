@@ -1,18 +1,14 @@
 defmodule ArkEcosystem.Crypto.Deserializers.TimelockTransferTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Deserializer
+  alias ArkEcosystem.Test.TestHelper
 
   @tag :skip
-  test "should be ok" do
-    transaction = File.read!("test/fixtures/transactions/timelock_transfer.json")
-      |> Jason.decode!(%{ :keys => :atoms })
+  test "should be ok if signed with a passphrase" do
+    fixture = TestHelper.read_fixture("timelock_transfer", "passphrase")
+    actual = Deserializer.deserialize(fixture)
 
-    ArkEcosystem.Crypto.Configuration.Network.set(
-      ArkEcosystem.Crypto.Networks.Devnet
-    )
-
-    actual = Deserializer.deserialize(transaction)
-    assert(actual.id == transaction.id)
+    assert(actual.id == fixture.data.id)
   end
 
 end
