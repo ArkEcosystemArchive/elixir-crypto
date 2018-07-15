@@ -5,7 +5,7 @@ defmodule ArkEcosystem.Crypto.Deserializers.DelegateResignationTest do
 
   @tag :skip
   test "should be ok if signed with a passphrase" do
-    fixture = TestHelper.read_fixture("delegate_resignation", "passphrase")
+    fixture = TestHelper.read_transaction_fixture("delegate_resignation", "passphrase")
     actual = Deserializer.deserialize(fixture)
 
     assert(actual.id == fixture.data.id)

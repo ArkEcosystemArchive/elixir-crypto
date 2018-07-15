@@ -13,7 +13,7 @@ defmodule ArkEcosystem.Crypto.Serializers.MultiPaymentTest do
 
   @tag :skip
   test "should be ok" do
-    fixture = TestHelper.read_fixture("multi_payment", "passphrase")
+    fixture = TestHelper.read_transaction_fixture("multi_payment", "passphrase")
     actual = Serializer.serialize(fixture.data, %{ underscore: true })
 
     assert(actual == fixture.serialized)

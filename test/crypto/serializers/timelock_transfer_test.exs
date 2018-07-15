@@ -13,7 +13,7 @@ defmodule ArkEcosystem.Crypto.Serializers.TimelockTransferTest do
 
   @tag :skip
   test "should be ok" do
-    fixture = TestHelper.read_fixture("timelock_transfer", "passphrase")
+    fixture = TestHelper.read_transaction_fixture("timelock_transfer", "passphrase")
     actual = Serializer.serialize(fixture.data, %{ underscore: true })
 
     assert(actual == fixture.serialized)

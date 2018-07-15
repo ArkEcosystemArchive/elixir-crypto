@@ -13,7 +13,7 @@ defmodule ArkEcosystem.Crypto.Serializers.DelegateResignationTest do
 
   @tag :skip
   test "should be ok" do
-    fixture = TestHelper.read_fixture("delegate_resignation", "passphrase")
+    fixture = TestHelper.read_transaction_fixture("delegate_resignation", "passphrase")
     actual = Serializer.serialize(fixture.data, %{ underscore: true })
 
     assert(actual == fixture.serialized)

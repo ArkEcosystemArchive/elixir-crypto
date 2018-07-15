@@ -12,7 +12,7 @@ defmodule ArkEcosystem.Crypto.Serializers.TransferTest do
   end
 
   test "should be ok" do
-    fixture = TestHelper.read_fixture("transfer", "passphrase")
+    fixture = TestHelper.read_transaction_fixture("transfer", "passphrase")
     actual = Serializer.serialize(fixture.data, %{ underscore: true })
 
     assert(actual == fixture.serialized)

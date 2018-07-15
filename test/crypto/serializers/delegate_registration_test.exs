@@ -12,7 +12,7 @@ defmodule ArkEcosystem.Crypto.Serializers.DelegateRegistrationTest do
   end
 
   test "should be ok" do
-    fixture = TestHelper.read_fixture("delegate_registration", "passphrase")
+    fixture = TestHelper.read_transaction_fixture("delegate_registration", "passphrase")
     actual = Serializer.serialize(fixture.data, %{ underscore: true })
 
     assert(actual == fixture.serialized)

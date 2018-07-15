@@ -13,7 +13,7 @@ defmodule ArkEcosystem.Crypto.Serializers.IPFSTest do
 
   @tag :skip
   test "should be ok" do
-    fixture = TestHelper.read_fixture("ipfs", "passphrase")
+    fixture = TestHelper.read_transaction_fixture("ipfs", "passphrase")
     actual = Serializer.serialize(fixture.data, %{ underscore: true })
 
     assert(actual == fixture.serialized)

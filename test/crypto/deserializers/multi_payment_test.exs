@@ -5,7 +5,7 @@ defmodule ArkEcosystem.Crypto.Deserializers.MultiPaymentTest do
 
   @tag :skip
   test "should be ok if signed with a passphrase" do
-    fixture = TestHelper.read_fixture("multi_payment", "passphrase")
+    fixture = TestHelper.read_transaction_fixture("multi_payment", "passphrase")
     actual = Deserializer.deserialize(fixture)
 
     assert(actual.id == fixture.data.id)

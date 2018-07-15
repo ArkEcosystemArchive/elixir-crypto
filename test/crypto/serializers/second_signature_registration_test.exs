@@ -12,7 +12,7 @@ defmodule ArkEcosystem.Crypto.Serializers.SecondSignatureRegistrationTest do
   end
 
   test "should be ok" do
-    fixture = TestHelper.read_fixture("second_signature_registration", "second-passphrase")
+    fixture = TestHelper.read_transaction_fixture("second_signature_registration", "second-passphrase")
     actual = Serializer.serialize(fixture.data, %{ underscore: true })
 
     assert(actual == fixture.serialized)

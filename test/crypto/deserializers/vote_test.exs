@@ -4,7 +4,7 @@ defmodule ArkEcosystem.Crypto.Deserializers.VoteTest do
   alias ArkEcosystem.Test.TestHelper
 
   test "should be ok if signed with a passphrase" do
-    fixture = TestHelper.read_fixture("vote", "passphrase")
+    fixture = TestHelper.read_transaction_fixture("vote", "passphrase")
     actual = Deserializer.deserialize(fixture)
 
     assert(actual.version == 1)
@@ -21,7 +21,7 @@ defmodule ArkEcosystem.Crypto.Deserializers.VoteTest do
   end
 
   test "should be ok if signed with a second passphrase" do
-    fixture = TestHelper.read_fixture("vote", "second-passphrase")
+    fixture = TestHelper.read_transaction_fixture("vote", "second-passphrase")
     actual = Deserializer.deserialize(fixture)
 
     assert(actual.version == 1)

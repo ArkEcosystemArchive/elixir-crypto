@@ -12,7 +12,7 @@ defmodule ArkEcosystem.Crypto.Serializers.MultiSignatureRegistrationTest do
   end
 
   test "should be ok" do
-    fixture = TestHelper.read_fixture("multi_signature_registration", "passphrase")
+    fixture = TestHelper.read_transaction_fixture("multi_signature_registration", "passphrase")
     actual = Serializer.serialize(fixture.data, %{ underscore: true })
 
     assert(actual == fixture.serialized)
