@@ -172,7 +172,7 @@ defmodule ArkEcosystem.Crypto.Deserializer do
         signatures  :: binary
       >> = serialized
 
-      transaction = if String.length(second_signature) > 0 and !String.starts_with?(second_signature, "ff") do
+      transaction = if String.length(signatures) > 0 and String.starts_with?(signatures, "ff") do
 
         # Parse Multi Signatures
         <<
