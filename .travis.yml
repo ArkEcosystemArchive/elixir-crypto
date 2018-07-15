@@ -5,3 +5,6 @@ elixir:
 
 script:
   - mix test
+
+git:
+  depth: 1
