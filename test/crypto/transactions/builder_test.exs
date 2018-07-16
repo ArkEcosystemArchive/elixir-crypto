@@ -10,7 +10,7 @@ defmodule ArkEcosystem.Crypto.Transactions.BuilderTest do
     {
       :ok,
       [
-        amount: 133380000000,
+        amount: 133_380_000_000,
         recipient_id: "AXoXnFi4z1Z6aFvjEYkDVCtBGW2PaRiM25",
         vendor_field: "This is a transaction from Elixir",
         secret: "this is a top secret passphrase",
@@ -21,24 +21,26 @@ defmodule ArkEcosystem.Crypto.Transactions.BuilderTest do
   end
 
   test "should build transfer and verify", context do
-    transaction = Builder.build_transfer(
-      context[:recipient_id],
-      context[:amount],
-      context[:vendor_field],
-      context[:secret]
-    )
+    transaction =
+      Builder.build_transfer(
+        context[:recipient_id],
+        context[:amount],
+        context[:vendor_field],
+        context[:secret]
+      )
 
     assert(Transaction.verify(transaction) == true)
   end
 
   test "should build transfer and verfiy with second secret", context do
-    transaction = Builder.build_transfer(
-      context[:recipient_id],
-      context[:amount],
-      context[:vendor_field],
-      context[:secret],
-      context[:second_secret]
-    )
+    transaction =
+      Builder.build_transfer(
+        context[:recipient_id],
+        context[:amount],
+        context[:vendor_field],
+        context[:secret],
+        context[:second_secret]
+      )
 
     second_public_key_address = PublicKey.from_passphrase(context[:second_secret])
 
@@ -49,9 +51,11 @@ defmodule ArkEcosystem.Crypto.Transactions.BuilderTest do
   test "should build vote and verify", context do
     votes = ["+" <> context[:delegate]]
 
-    transaction = Builder.build_vote(
-      votes, context[:secret]
-    )
+    transaction =
+      Builder.build_vote(
+        votes,
+        context[:secret]
+      )
 
     assert(Transaction.verify(transaction) == true)
   end
@@ -59,9 +63,12 @@ defmodule ArkEcosystem.Crypto.Transactions.BuilderTest do
   test "should build vote and verify with second secret", context do
     votes = ["+" <> context[:delegate]]
 
-    transaction = Builder.build_vote(
-      votes, context[:secret], context[:second_secret]
-    )
+    transaction =
+      Builder.build_vote(
+        votes,
+        context[:secret],
+        context[:second_secret]
+      )
 
     second_public_key_address = PublicKey.from_passphrase(context[:second_secret])
 
@@ -70,9 +77,11 @@ defmodule ArkEcosystem.Crypto.Transactions.BuilderTest do
   end
 
   test "should build second signature registration and verify", context do
-    transaction = Builder.build_second_signature_registration(
-      context[:secret], context[:second_secret]
-    )
+    transaction =
+      Builder.build_second_signature_registration(
+        context[:secret],
+        context[:second_secret]
+      )
 
     second_public_key_address = PublicKey.from_passphrase(context[:second_secret])
 
@@ -81,22 +90,26 @@ defmodule ArkEcosystem.Crypto.Transactions.BuilderTest do
   end
 
   test "should build delegate registration and verify", context do
-    transaction = Builder.build_delegate_registration(
-      "Moo", context[:secret]
-    )
+    transaction =
+      Builder.build_delegate_registration(
+        "Moo",
+        context[:secret]
+      )
 
     assert(Transaction.verify(transaction) == true)
   end
 
   test "should build delegate registration and verify with second secret", context do
-    transaction = Builder.build_delegate_registration(
-      "Moo", context[:secret], context[:second_secret]
-    )
+    transaction =
+      Builder.build_delegate_registration(
+        "Moo",
+        context[:secret],
+        context[:second_secret]
+      )
 
     second_public_key_address = PublicKey.from_passphrase(context[:second_secret])
 
     assert(Transaction.verify(transaction) == true)
     assert(Transaction.second_verify(transaction, second_public_key_address) == true)
   end
-
 end

@@ -56,7 +56,9 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.TransferTest do
   end
 
   test "should be ok if signed with a second passphrase and vendor field" do
-    fixture = TestHelper.read_transaction_fixture("transfer", "second-passphrase-with-vendor-field")
+    fixture =
+      TestHelper.read_transaction_fixture("transfer", "second-passphrase-with-vendor-field")
+
     actual = Deserializer.deserialize(fixture)
 
     assert(actual.version == 1)
@@ -93,7 +95,9 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.TransferTest do
   end
 
   test "should be ok if signed with a second passphrase and vendor field hex" do
-    fixture = TestHelper.read_transaction_fixture("transfer", "second-passphrase-with-vendor-field-hex")
+    fixture =
+      TestHelper.read_transaction_fixture("transfer", "second-passphrase-with-vendor-field-hex")
+
     actual = Deserializer.deserialize(fixture)
 
     assert(actual.version == 1)
@@ -110,5 +114,4 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.TransferTest do
     assert(actual.sign_signature == fixture.data.signSignature)
     assert(actual.id == fixture.data.id)
   end
-
 end

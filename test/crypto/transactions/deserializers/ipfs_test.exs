@@ -10,5 +10,4 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.IPFSTest do
 
     assert(actual.id == fixture.data.id)
   end
-
 end

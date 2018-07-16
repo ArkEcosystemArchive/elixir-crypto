@@ -37,5 +37,4 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.VoteTest do
     assert(actual.id == fixture.data.id)
     assert(actual.asset.votes == fixture.data.asset.votes)
   end
-
 end

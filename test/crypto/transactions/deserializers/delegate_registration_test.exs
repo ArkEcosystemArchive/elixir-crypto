@@ -34,5 +34,4 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.DelegateRegistrationTes
     assert(actual.id == fixture.data.id)
     assert(actual.asset.delegate.username == fixture.data.asset.delegate.username)
   end
-
 end

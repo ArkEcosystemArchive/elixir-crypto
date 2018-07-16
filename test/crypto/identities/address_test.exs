@@ -4,9 +4,7 @@ defmodule ArkEcosystem.Crypto.Identities.AddressTest do
   alias ArkEcosystem.Test.TestHelper
 
   setup_all do
-    ArkEcosystem.Crypto.Configuration.Network.set(
-      ArkEcosystem.Crypto.Networks.Devnet
-    )
+    ArkEcosystem.Crypto.Configuration.Network.set(ArkEcosystem.Crypto.Networks.Devnet)
 
     :ok
   end

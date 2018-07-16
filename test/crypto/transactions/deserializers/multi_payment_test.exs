@@ -10,5 +10,4 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.MultiPaymentTest do
 
     assert(actual.id == fixture.data.id)
   end
-
 end

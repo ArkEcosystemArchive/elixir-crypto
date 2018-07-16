@@ -5,7 +5,9 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.SecondSignatureRegistra
   alias ArkEcosystem.Test.TestHelper
 
   test "should be ok if signed with a passphrase" do
-    fixture = TestHelper.read_transaction_fixture("second_signature_registration", "second-passphrase")
+    fixture =
+      TestHelper.read_transaction_fixture("second_signature_registration", "second-passphrase")
+
     actual = Deserializer.deserialize(fixture)
 
     assert(actual.version == 1)
@@ -22,5 +24,4 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.SecondSignatureRegistra
     # special case as the type 1 transaction itself has no recipientId
     assert(actual.recipient_id == Address.from_public_key(fixture.data.senderPublicKey))
   end
-
 end

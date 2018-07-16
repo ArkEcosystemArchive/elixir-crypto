@@ -13,13 +13,13 @@ defmodule ArkEcosystem.Crypto.Utils.MessageTest do
   test "should be able to verify a message" do
     fixture = TestHelper.read_fixture("message")
 
-    actual = Message.verify(
-      fixture.data.message,
-      fixture.data.signature,
-      fixture.data.publickey
-    )
+    actual =
+      Message.verify(
+        fixture.data.message,
+        fixture.data.signature,
+        fixture.data.publickey
+      )
 
     assert(actual == true)
   end
-
 end
