@@ -75,11 +75,9 @@
 
 ### Private Key
 - [x] fromPassphrase
-- [ ] fromHex
 
 ### Public Key
 - [x] fromPassphrase
-- [ ] fromHex
 
 ### WIF
 - [ ] fromPassphrase
