@@ -39,16 +39,16 @@
 - [x] Second Signature Registration
 - [x] Delegate Registration
 - [x] Vote
-- [ ] Multi Signature Registration
+- [x] Multi Signature Registration
 
 ### Transaction Verifying
 - [x] Transfer
 - [x] Second Signature Registration
 - [x] Delegate Registration
 - [x] Vote
-- [ ] Multi Signature Registration
+- [x] Multi Signature Registration
 
-### Transaction Entity
+### Transaction
 - [x] getId
 - [x] sign
 - [x] secondSign
@@ -67,21 +67,21 @@
 - [ ] toArray
 - [ ] toJson
 
-### Address Identity
+### Address
 - [x] fromPassphrase
 - [x] fromPublicKey
 - [x] fromPrivateKey
 - [ ] validate
 
-### Private Key Identity
+### Private Key
 - [x] fromPassphrase
 - [ ] fromHex
 
-### Public Key Identity
+### Public Key
 - [x] fromPassphrase
 - [ ] fromHex
 
-### WIF Identity
+### WIF
 - [ ] fromPassphrase
 
 ### Configuration
