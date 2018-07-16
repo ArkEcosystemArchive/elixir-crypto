@@ -1,9 +1,8 @@
 defmodule ArkEcosystem.Crypto.Identities.PublicKey do
   alias Exbtc.Core, as: BtcCore
-  alias ArkEcosystem.Crypto.Utils.Der
 
-  def from_passphrase(secret) do
-    secret
+  def from_passphrase(passphrase) do
+    passphrase
     |> ArkEcosystem.Crypto.Identities.PrivateKey.from_passphrase()
     |> from_private_key
   end

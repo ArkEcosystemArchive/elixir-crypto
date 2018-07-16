@@ -13,17 +13,17 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
     :sha256 |> :crypto.hash(bytes) |> Base.encode16(case: :lower)
   end
 
-  def sign_transaction(transaction, secret, second_secret \\ nil) when is_map(transaction) do
+  def sign_transaction(transaction, passphrase, second_passphrase \\ nil) when is_map(transaction) do
     transaction
-    |> sign(secret)
-    |> second_sign(second_secret)
+    |> sign(passphrase)
+    |> second_sign(second_passphrase)
   end
 
-  def sign(transaction, secret) do
-    public_key = PublicKey.from_passphrase(secret)
+  def sign(transaction, passphrase) do
+    public_key = PublicKey.from_passphrase(passphrase)
     transaction = Map.put(transaction, :sender_public_key, public_key)
 
-    signature = calc_signature(transaction, secret)
+    signature = calc_signature(transaction, passphrase)
     transaction = Map.put(transaction, :signature, signature)
 
     id = get_id(transaction)
@@ -34,8 +34,8 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
     transaction
   end
 
-  def second_sign(transaction, second_secret) do
-    sign_signature = calc_signature(transaction, second_secret, true)
+  def second_sign(transaction, second_passphrase) do
+    sign_signature = calc_signature(transaction, second_passphrase, true)
 
     transaction
     |> Map.put(:sign_signature, sign_signature)
@@ -143,9 +143,9 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
     |> Base58Check.encode58check(<<>>)
   end
 
-  defp calc_signature(transaction, secret, second \\ false) do
+  defp calc_signature(transaction, passphrase, second \\ false) do
     transaction
     |> get_bytes(not second)
-    |> PrivateKey.sign(secret)
+    |> PrivateKey.sign(passphrase)
   end
 end
