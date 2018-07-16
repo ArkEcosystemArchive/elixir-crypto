@@ -2,12 +2,12 @@ defmodule ArkEcosystem.Crypto.Identities.PrivateKey do
   alias Exbtc.Core, as: BtcCore
   alias ArkEcosystem.Crypto.Utils.Der
 
-  def from_passphrase(secret) do
-    Base.encode16(:crypto.hash(:sha256, secret), case: :lower)
+  def from_passphrase(passphrase) do
+    Base.encode16(:crypto.hash(:sha256, passphrase), case: :lower)
   end
 
-  def sign(message, secret) do
-    private_key = ArkEcosystem.Crypto.Identities.PrivateKey.from_passphrase(secret)
+  def sign(message, passphrase) do
+    private_key = ArkEcosystem.Crypto.Identities.PrivateKey.from_passphrase(passphrase)
 
     {_v, r, s} =
       BtcCore.ecdsa_raw_sign(
