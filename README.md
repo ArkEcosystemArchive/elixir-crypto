@@ -68,17 +68,17 @@
 - [ ] toJson
 
 ### Address Identity
-- [ ] fromPassphrase
-- [ ] fromPublicKey
-- [ ] fromPrivateKey
+- [x] fromPassphrase
+- [x] fromPublicKey
+- [x] fromPrivateKey
 - [ ] validate
 
 ### Private Key Identity
-- [ ] fromPassphrase
+- [x] fromPassphrase
 - [ ] fromHex
 
 ### Public Key Identity
-- [ ] fromPassphrase
+- [x] fromPassphrase
 - [ ] fromHex
 
 ### WIF Identity

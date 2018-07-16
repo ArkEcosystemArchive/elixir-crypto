@@ -1,7 +1,7 @@
 defmodule ArkEcosystem.Crypto.Transactions.Deserializers.SecondSignatureRegistrationTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Transactions.Deserializer
-  alias ArkEcosystem.Crypto.Utils.EcKey
+  alias ArkEcosystem.Crypto.Identities.Address
   alias ArkEcosystem.Test.TestHelper
 
   test "should be ok if signed with a passphrase" do
@@ -20,7 +20,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.SecondSignatureRegistra
     assert(actual.asset.signature.public_key == fixture.data.asset.signature.publicKey)
 
     # special case as the type 1 transaction itself has no recipientId
-    assert(actual.recipient_id == EcKey.public_key_to_address(fixture.data.senderPublicKey))
+    assert(actual.recipient_id == Address.from_public_key(fixture.data.senderPublicKey))
   end
 
 end

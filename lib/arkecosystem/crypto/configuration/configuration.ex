@@ -11,5 +11,4 @@ defmodule ArkEcosystem.Crypto.Configuration.Configuration do
     set(bucket, key, value)
     get_value(key, bucket)
   end
-
 end

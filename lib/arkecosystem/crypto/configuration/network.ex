@@ -8,6 +8,7 @@ defmodule ArkEcosystem.Crypto.Configuration.Network do
 
   def get() do
     network = Configuration.get_value(:network)
+
     if is_nil(network) do
       set(%Networks.Mainnet{})
     else
@@ -19,5 +20,4 @@ defmodule ArkEcosystem.Crypto.Configuration.Network do
     struct = Kernel.struct(network)
     Configuration.set_value(:network, struct)
   end
-
 end

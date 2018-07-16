@@ -1,10 +1,11 @@
 defmodule ArkEcosystem.Crypto.Utils.Message do
+  alias ArkEcosystem.Crypto.Identities.PublicKey
   alias ArkEcosystem.Crypto.Utils.EcKey
 
   @spec sign(String.t(), String.t()) :: Map.t()
   def sign(message, passphrase) do
     %{
-      :publickey => EcKey.secret_to_public_key(passphrase),
+      :publickey => PublicKey.from_passphrase(passphrase),
       :signature => EcKey.sign(message, passphrase),
       :message => message
     }

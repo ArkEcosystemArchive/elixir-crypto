@@ -19,6 +19,7 @@ defmodule ArkEcosystem.Crypto.Configuration.Fee do
 
   def get(type) when is_atom(type) do
     fee = Configuration.get_value(type)
+
     if is_nil(fee) do
       apply(Fees, type, [])
     else
@@ -43,5 +44,4 @@ defmodule ArkEcosystem.Crypto.Configuration.Fee do
       @delegate_resignation -> :delegate_resignation
     end
   end
-
 end

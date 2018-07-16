@@ -1,9 +1,9 @@
 defmodule ArkEcosystem.Crypto.Transactions.Builder do
+  alias ArkEcosystem.Crypto.Configuration.Fee
+  alias ArkEcosystem.Crypto.Enums.Types
+  alias ArkEcosystem.Crypto.Identities.{Address, PublicKey}
   alias ArkEcosystem.Crypto.Transactions.Transaction
   alias ArkEcosystem.Crypto.Utils.Slot
-  alias ArkEcosystem.Crypto.Enums.Types
-  alias ArkEcosystem.Crypto.Configuration.{Fee}
-  alias ArkEcosystem.Crypto.Utils.{EcKey}
 
   @transfer Types.transfer()
   @second_signature_registration Types.second_signature_registration()
@@ -26,23 +26,23 @@ defmodule ArkEcosystem.Crypto.Transactions.Builder do
     }
 
     transaction_skeleton()
-      |> Map.merge(transfer)
-      |> Transaction.sign_transaction(secret, second_secret)
+    |> Map.merge(transfer)
+    |> Transaction.sign_transaction(secret, second_secret)
   end
 
   def build_vote(votes, secret, second_secret \\ nil) do
     vote = %{
       :type => @vote,
       :fee => Fee.get(@vote),
-      :recipient_id => EcKey.secret_to_address(secret),
+      :recipient_id => Address.from_passphrase(secret),
       :asset => %{
         :votes => votes
       }
     }
 
     transaction_skeleton()
-      |> Map.merge(vote)
-      |> Transaction.sign_transaction(secret, second_secret)
+    |> Map.merge(vote)
+    |> Transaction.sign_transaction(secret, second_secret)
   end
 
   def build_second_signature_registration(secret, second_secret \\ nil) do
@@ -51,14 +51,14 @@ defmodule ArkEcosystem.Crypto.Transactions.Builder do
       :fee => Fee.get(@second_signature_registration),
       :asset => %{
         :signature => %{
-          :public_key => EcKey.secret_to_public_key(secret)
+          :public_key => PublicKey.from_passphrase(secret)
         }
       }
     }
 
     transaction_skeleton()
-      |> Map.merge(second_signature_registration)
-      |> Transaction.sign_transaction(secret, second_secret)
+    |> Map.merge(second_signature_registration)
+    |> Transaction.sign_transaction(secret, second_secret)
   end
 
   def build_delegate_registration(username, secret, second_secret \\ nil) do
@@ -68,18 +68,19 @@ defmodule ArkEcosystem.Crypto.Transactions.Builder do
       :asset => %{
         :delegate => %{
           :username => username,
-          :public_key => EcKey.secret_to_public_key(secret)
+          :public_key => PublicKey.from_passphrase(secret)
         }
       }
     }
 
     transaction_skeleton()
-      |> Map.merge(delegate_registration)
-      |> Transaction.sign_transaction(secret, second_secret)
+    |> Map.merge(delegate_registration)
+    |> Transaction.sign_transaction(secret, second_secret)
   end
 
   def build_multi_signature_registration(min, lifetime, keysgroup, secret, second_secret \\ nil) do
-    keys_count = length keysgroup
+    keys_count = length(keysgroup)
+
     multi_signature_registration = %{
       :type => @multi_signature_registration,
       :fee => (keys_count + 1) * Fee.get(@multi_signature_registration),
@@ -93,8 +94,8 @@ defmodule ArkEcosystem.Crypto.Transactions.Builder do
     }
 
     transaction_skeleton()
-      |> Map.merge(multi_signature_registration)
-      |> Transaction.sign_transaction(secret, second_secret)
+    |> Map.merge(multi_signature_registration)
+    |> Transaction.sign_transaction(secret, second_secret)
   end
 
   def build_ipfs do
@@ -117,16 +118,13 @@ defmodule ArkEcosystem.Crypto.Transactions.Builder do
     @delegate_resignation
   end
 
-
   #### Private
 
   defp transaction_skeleton do
     %{
       :id => nil,
       :amount => 0,
-      :timestamp => Slot.get_time
+      :timestamp => Slot.get_time()
     }
   end
-
 end
-

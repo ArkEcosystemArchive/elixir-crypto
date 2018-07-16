@@ -1,12 +1,11 @@
 defmodule ArkEcosystem.Crypto.Transactions.Deserializers.SecondSignatureRegistration do
-
   def deserialize(data) do
-    [ transaction, asset_offset, serialized, bytes ] = data
+    [transaction, asset_offset, serialized, bytes] = data
 
     <<
-      _           :: binary-size(asset_offset),
-      public_key  :: binary-size(66),
-      _           :: binary
+      _::binary-size(asset_offset),
+      public_key::binary-size(66),
+      _::binary
     >> = serialized
 
     signature = %{
@@ -24,5 +23,4 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.SecondSignatureRegistra
       bytes
     ]
   end
-
 end

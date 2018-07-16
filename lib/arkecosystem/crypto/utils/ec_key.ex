@@ -1,9 +1,10 @@
 defmodule ArkEcosystem.Crypto.Utils.EcKey do
   alias Exbtc.Core, as: BtcCore
-  alias ArkEcosystem.Crypto.Utils.{Base58Check, Der}
+  alias ArkEcosystem.Crypto.Utils.Der
 
+  # TODO: move this to the private key
   def sign(message, secret) do
-    private_key = get_private_key(secret)
+    private_key = ArkEcosystem.Crypto.Identities.PrivateKey.from_passphrase(secret)
 
     {_v, r, s} =
       BtcCore.ecdsa_raw_sign(
@@ -12,51 +13,16 @@ defmodule ArkEcosystem.Crypto.Utils.EcKey do
       )
 
     r
-      |> Der.encode_sequence(s)
-      |> Base.encode16(case: :lower)
+    |> Der.encode_sequence(s)
+    |> Base.encode16(case: :lower)
   end
 
+  # TODO: move this to the public key
   def verify(message, signature, public_key) do
     message = :crypto.hash(:sha256, message)
     signature = Base.decode16!(signature, case: :lower)
     public_key = Base.decode16!(public_key, case: :lower)
+
     :crypto.verify(:ecdsa, :sha256, {:digest, message}, signature, [public_key, :secp256k1])
   end
-
-  def get_private_key(secret) do
-    Base.encode16(:crypto.hash(:sha256, secret), case: :lower)
-  end
-
-  def private_key_to_public_key(private_key) do
-    private_key
-    |> BtcCore.privkey_to_pubkey()
-    |> BtcCore.compress()
-  end
-
-  def private_key_to_address(private_key, network_address \\ nil) do
-    private_key
-    |> private_key_to_public_key
-    |> public_key_to_address(network_address)
-  end
-
-  def secret_to_public_key(secret) do
-    secret
-    |> get_private_key
-    |> private_key_to_public_key
-  end
-
-  def secret_to_address(secret, network_address \\ nil) do
-    secret
-    |> get_private_key
-    |> private_key_to_address(network_address)
-  end
-
-  def public_key_to_address(public_key, network_address \\ nil) do
-    network_address = network_address || ArkEcosystem.Crypto.Configuration.Network.version
-
-    public_key = Base.decode16(public_key, case: :lower)
-    ripemd_public_key = :crypto.hash(:ripemd160, elem(public_key, 1))
-    Base58Check.encode58check(network_address, ripemd_public_key)
-  end
-
 end

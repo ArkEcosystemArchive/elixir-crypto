@@ -2,7 +2,7 @@ defmodule ArkEcosystem.Crypto.Transactions.BuilderTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Transactions.Transaction
   alias ArkEcosystem.Crypto.Transactions.Builder
-  alias ArkEcosystem.Crypto.Utils.EcKey
+  alias ArkEcosystem.Crypto.Identities.PublicKey
 
   import Mock
 
@@ -40,7 +40,7 @@ defmodule ArkEcosystem.Crypto.Transactions.BuilderTest do
       context[:second_secret]
     )
 
-    second_public_key_address = EcKey.secret_to_public_key(context[:second_secret])
+    second_public_key_address = PublicKey.from_passphrase(context[:second_secret])
 
     assert(Transaction.verify(transaction) == true)
     assert(Transaction.second_verify(transaction, second_public_key_address) == true)
@@ -63,7 +63,7 @@ defmodule ArkEcosystem.Crypto.Transactions.BuilderTest do
       votes, context[:secret], context[:second_secret]
     )
 
-    second_public_key_address = EcKey.secret_to_public_key(context[:second_secret])
+    second_public_key_address = PublicKey.from_passphrase(context[:second_secret])
 
     assert(Transaction.verify(transaction) == true)
     assert(Transaction.second_verify(transaction, second_public_key_address) == true)
@@ -74,7 +74,7 @@ defmodule ArkEcosystem.Crypto.Transactions.BuilderTest do
       context[:secret], context[:second_secret]
     )
 
-    second_public_key_address = EcKey.secret_to_public_key(context[:second_secret])
+    second_public_key_address = PublicKey.from_passphrase(context[:second_secret])
 
     assert(Transaction.verify(transaction) == true)
     assert(Transaction.second_verify(transaction, second_public_key_address) == true)
@@ -93,7 +93,7 @@ defmodule ArkEcosystem.Crypto.Transactions.BuilderTest do
       "Moo", context[:secret], context[:second_secret]
     )
 
-    second_public_key_address = EcKey.secret_to_public_key(context[:second_secret])
+    second_public_key_address = PublicKey.from_passphrase(context[:second_secret])
 
     assert(Transaction.verify(transaction) == true)
     assert(Transaction.second_verify(transaction, second_public_key_address) == true)
