@@ -32,4 +32,11 @@ defmodule ArkEcosystem.Crypto.Identities.AddressTest do
 
     assert(actual == fixture.data.address)
   end
+
+  test "should be able to validate the address" do
+    fixture = TestHelper.read_transaction_fixture("transfer", "passphrase")
+
+    actual = Address.validate(fixture.data.recipientId)
+    assert(actual == true)
+  end
 end

@@ -21,4 +21,13 @@ defmodule ArkEcosystem.Crypto.Identities.Address do
     |> ArkEcosystem.Crypto.Identities.PublicKey.from_private_key()
     |> from_public_key(network)
   end
+
+  def validate(address) do
+    try do
+      Base58Check.decode58check(address)
+      true
+    rescue
+      _ -> false
+    end
+  end
 end
