@@ -78,7 +78,13 @@ defmodule ArkEcosystem.Crypto.Transactions.Builder do
     |> Transaction.sign_transaction(passphrase, second_passphrase)
   end
 
-  def build_multi_signature_registration(min, lifetime, keysgroup, passphrase, second_passphrase \\ nil) do
+  def build_multi_signature_registration(
+        min,
+        lifetime,
+        keysgroup,
+        passphrase,
+        second_passphrase \\ nil
+      ) do
     keys_count = length(keysgroup)
 
     multi_signature_registration = %{

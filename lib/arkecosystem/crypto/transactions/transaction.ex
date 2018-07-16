@@ -1,7 +1,7 @@
 defmodule ArkEcosystem.Crypto.Transactions.Transaction do
   alias ArkEcosystem.Crypto.Enums.Types
   alias ArkEcosystem.Crypto.Identities.{PublicKey, PrivateKey}
-  alias ArkEcosystem.Crypto.Utils.Base58Check
+  alias ArkEcosystem.Crypto.Utils.{Base58Check, MapKeyTransformer}
   alias ArkEcosystem.Crypto.Transactions.{Deserializer, Serializer}
 
   @second_signature_registration Types.second_signature_registration()
@@ -150,6 +150,43 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
 
   def deserialize(%{serialized: serialized}) when is_bitstring(serialized) do
     %{serialized: serialized} |> Deserializer.deserialize()
+  end
+
+  def to_params(transaction) when is_map(transaction) do
+    param_keys = [
+      :type,
+      :amount,
+      :fee,
+      :vendor_field,
+      :timestamp,
+      :recipient_id,
+      :sender_public_key,
+      :signature,
+      :id
+    ]
+
+    asset =
+      if Map.has_key?(transaction, :asset) do
+        %{:asset => transaction.asset}
+      else
+        %{:asset => %{}}
+      end
+
+    sign_signature =
+      if Map.has_key?(transaction, :sign_signature) do
+        %{:sign_signature => transaction.sign_signature}
+      else
+        %{}
+      end
+
+    Map.take(transaction, param_keys)
+    |> Map.merge(asset)
+    |> Map.merge(sign_signature)
+    |> MapKeyTransformer.camelCase()
+  end
+
+  def to_json(transaction) when is_map(transaction) do
+    transaction |> to_params |> Jason.encode!()
   end
 
   def encode58(data) when is_binary(data) do
