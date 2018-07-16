@@ -22,10 +22,12 @@ defmodule ArkEcosystem.Crypto.Identities.Address do
     |> from_public_key(network)
   end
 
-  def validate(address) do
+  def validate(address, network \\ nil) do
+    network = network || ArkEcosystem.Crypto.Configuration.Network.version()
+
     try do
       Base58Check.decode58check(address)
-      true
+      |> String.first() == network
     rescue
       _ -> false
     end
