@@ -11,7 +11,6 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializer do
   alias ArkEcosystem.Crypto.Transactions.Deserializers.Transfer
   alias ArkEcosystem.Crypto.Transactions.Deserializers.Vote
   alias ArkEcosystem.Crypto.Transactions.Transaction
-  alias ArkEcosystem.Crypto.Utils.EcKey
 
   @transfer Types.transfer()
   @second_signature_registration Types.second_signature_registration()

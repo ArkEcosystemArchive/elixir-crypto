@@ -1,7 +1,7 @@
 defmodule ArkEcosystem.Crypto.Transactions.Transaction do
   alias ArkEcosystem.Crypto.Enums.Types
-  alias ArkEcosystem.Crypto.Identities.PublicKey
-  alias ArkEcosystem.Crypto.Utils.{EcKey, Base58Check}
+  alias ArkEcosystem.Crypto.Identities.{PublicKey, PrivateKey}
+  alias ArkEcosystem.Crypto.Utils.Base58Check
 
   @second_signature_registration Types.second_signature_registration()
   @delegate_registration Types.delegate_registration()
@@ -43,12 +43,12 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
 
   def verify(transaction) do
     get_bytes(transaction)
-    |> EcKey.verify(transaction.signature, transaction.sender_public_key)
+    |> PublicKey.verify(transaction.signature, transaction.sender_public_key)
   end
 
   def second_verify(transaction, second_public_key) do
     get_bytes(transaction, false)
-    |> EcKey.verify(transaction.sign_signature, second_public_key)
+    |> PublicKey.verify(transaction.sign_signature, second_public_key)
   end
 
   def get_bytes(transaction, skip_signature \\ true, skip_second_signature \\ true) do
@@ -146,6 +146,6 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
   defp calc_signature(transaction, secret, second \\ false) do
     transaction
     |> get_bytes(not second)
-    |> EcKey.sign(secret)
+    |> PrivateKey.sign(secret)
   end
 end
