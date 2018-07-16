@@ -2,6 +2,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
   alias ArkEcosystem.Crypto.Enums.Types
   alias ArkEcosystem.Crypto.Identities.{PublicKey, PrivateKey}
   alias ArkEcosystem.Crypto.Utils.Base58Check
+  alias ArkEcosystem.Crypto.Transactions.{Deserializer, Serializer}
 
   @second_signature_registration Types.second_signature_registration()
   @delegate_registration Types.delegate_registration()
@@ -13,7 +14,8 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
     :sha256 |> :crypto.hash(bytes) |> Base.encode16(case: :lower)
   end
 
-  def sign_transaction(transaction, passphrase, second_passphrase \\ nil) when is_map(transaction) do
+  def sign_transaction(transaction, passphrase, second_passphrase \\ nil)
+      when is_map(transaction) do
     transaction
     |> sign(passphrase)
     |> second_sign(second_passphrase)
@@ -136,6 +138,18 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
       timestamp <>
       sender_public_key <>
       recipient_id <> vendor_field <> amount <> fee <> payload <> signature <> second_signature
+  end
+
+  def serialize(transaction) when is_map(transaction) do
+    transaction |> Serializer.serialize(%{underscore: true})
+  end
+
+  def deserialize(serialized) when is_bitstring(serialized) do
+    %{serialized: serialized} |> deserialize()
+  end
+
+  def deserialize(%{serialized: serialized}) when is_bitstring(serialized) do
+    %{serialized: serialized} |> Deserializer.deserialize()
   end
 
   def encode58(data) when is_binary(data) do
