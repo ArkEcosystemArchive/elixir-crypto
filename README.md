@@ -87,12 +87,12 @@
 ### Configuration
 - [x] getNetwork
 - [x] setNetwork
-- [ ] getFee
-- [ ] setFee
+- [x] getFee
+- [x] setFee
 
 ### Slot
 - [x] time
-- [ ] epoch
+- [x] epoch
 
 ### Networks (Mainnet, Devnet & Testnet)
 - [x] epoch
