@@ -13,55 +13,55 @@
 ## TO-DO
 
 ### AIP11 Serialization
-- [ ] Transfer
-- [ ] Second Signature Registration
-- [ ] Delegate Registration
-- [ ] Vote
-- [ ] Multi Signature Registration
-- [ ] IPFS
-- [ ] Timelock Transfer
-- [ ] Multi Payment
-- [ ] Delegate Resignation
+- [x] Transfer
+- [x] Second Signature Registration
+- [x] Delegate Registration
+- [x] Vote
+- [x] Multi Signature Registration
+- [x] IPFS
+- [x] Timelock Transfer
+- [x] Multi Payment
+- [x] Delegate Resignation
 
 ### AIP11 Deserialization
-- [ ] Transfer
-- [ ] Second Signature Registration
-- [ ] Delegate Registration
-- [ ] Vote
-- [ ] Multi Signature Registration
-- [ ] IPFS
-- [ ] Timelock Transfer
-- [ ] Multi Payment
-- [ ] Delegate Resignation
+- [x] Transfer
+- [x] Second Signature Registration
+- [x] Delegate Registration
+- [x] Vote
+- [x] Multi Signature Registration
+- [x] IPFS
+- [x] Timelock Transfer
+- [x] Multi Payment
+- [x] Delegate Resignation
 
 ### Transaction Signing
-- [ ] Transfer
-- [ ] Second Signature Registration
-- [ ] Delegate Registration
-- [ ] Vote
+- [x] Transfer
+- [x] Second Signature Registration
+- [x] Delegate Registration
+- [x] Vote
 - [ ] Multi Signature Registration
 
 ### Transaction Verifying
-- [ ] Transfer
-- [ ] Second Signature Registration
-- [ ] Delegate Registration
-- [ ] Vote
+- [x] Transfer
+- [x] Second Signature Registration
+- [x] Delegate Registration
+- [x] Vote
 - [ ] Multi Signature Registration
 
 ### Transaction Entity
-- [ ] getId
-- [ ] sign
-- [ ] secondSign
-- [ ] parseSignatures
+- [x] getId
+- [x] sign
+- [x] secondSign
+- [x] parseSignatures
 - [ ] serialize
 - [ ] deserialize
-- [ ] toBytes
+- [x] toBytes
 - [ ] toArray
 - [ ] toJson
 
 ### Message
-- [ ] sign
-- [ ] verify
+- [x] sign
+- [x] verify
 - [ ] toArray
 - [ ] toJson
 
@@ -83,20 +83,20 @@
 - [ ] fromPassphrase
 
 ### Configuration
-- [ ] getNetwork
-- [ ] setNetwork
+- [x] getNetwork
+- [x] setNetwork
 - [ ] getFee
 - [ ] setFee
 
 ### Slot
-- [ ] time
+- [x] time
 - [ ] epoch
 
 ### Networks (Mainnet, Devnet & Testnet)
-- [ ] epoch
-- [ ] version
-- [ ] nethash
-- [ ] wif
+- [x] epoch
+- [x] version
+- [x] nethash
+- [x] wif
 
 ## Installation
 
