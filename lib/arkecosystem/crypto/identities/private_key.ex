@@ -6,6 +6,10 @@ defmodule ArkEcosystem.Crypto.Identities.PrivateKey do
     Base.encode16(:crypto.hash(:sha256, passphrase), case: :lower)
   end
 
+  def from_hex(private_key) do
+    Base.decode16!(private_key, case: :lower)
+  end
+
   def sign(message, passphrase) do
     private_key = ArkEcosystem.Crypto.Identities.PrivateKey.from_passphrase(passphrase)
 
