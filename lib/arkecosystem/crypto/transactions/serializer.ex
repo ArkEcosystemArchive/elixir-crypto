@@ -1,6 +1,6 @@
 defmodule ArkEcosystem.Crypto.Transactions.Serializer do
   alias ArkEcosystem.Crypto.Enums.Types
-  alias ArkEcosystem.Crypto.Utils.Underscorer
+  alias ArkEcosystem.Crypto.Utils.MapKeyTransformer
   alias ArkEcosystem.Crypto.Configuration.Network
   alias ArkEcosystem.Crypto.Transactions.Serializers.Transfer
   alias ArkEcosystem.Crypto.Transactions.Serializers.SecondSignatureRegistration
@@ -23,7 +23,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Serializer do
   @delegate_resignation Types.delegate_resignation()
 
   def serialize(transaction, %{underscore: underscore}) when is_map(transaction) do
-    if(underscore, do: Underscorer.underscore(transaction), else: transaction)
+    if(underscore, do: MapKeyTransformer.underscore(transaction), else: transaction)
     |> serialize
   end
 

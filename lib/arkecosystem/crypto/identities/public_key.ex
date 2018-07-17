@@ -13,6 +13,10 @@ defmodule ArkEcosystem.Crypto.Identities.PublicKey do
     |> BtcCore.compress()
   end
 
+  def from_hex(public_key) do
+    Base.decode16!(public_key, case: :lower)
+  end
+
   def verify(message, signature, public_key) do
     message = :crypto.hash(:sha256, message)
     signature = Base.decode16!(signature, case: :lower)

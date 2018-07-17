@@ -14,4 +14,17 @@ defmodule ArkEcosystem.Crypto.Utils.Message do
   def verify(message, signature, public_key) do
     PublicKey.verify(message, signature, public_key)
   end
+
+  def to_params(message, signature, public_key) do
+    %{
+      :message => message,
+      :signature => signature,
+      :publickey => public_key
+    }
+  end
+
+  def to_json(message, signature, public_key) do
+    to_params(message, signature, public_key)
+    |> Jason.encode!()
+  end
 end

@@ -13,6 +13,7 @@
 ## TO-DO
 
 ### AIP11 Serialization
+
 - [x] Transfer
 - [x] Second Signature Registration
 - [x] Delegate Registration
@@ -24,6 +25,7 @@
 - [x] Delegate Resignation
 
 ### AIP11 Deserialization
+
 - [x] Transfer
 - [x] Second Signature Registration
 - [x] Delegate Registration
@@ -35,6 +37,7 @@
 - [x] Delegate Resignation
 
 ### Transaction Signing
+
 - [x] Transfer
 - [x] Second Signature Registration
 - [x] Delegate Registration
@@ -42,6 +45,7 @@
 - [x] Multi Signature Registration
 
 ### Transaction Verifying
+
 - [x] Transfer
 - [x] Second Signature Registration
 - [x] Delegate Registration
@@ -49,52 +53,61 @@
 - [x] Multi Signature Registration
 
 ### Transaction
+
 - [x] getId
 - [x] sign
 - [x] secondSign
 - [x] verify
 - [x] secondVerify
 - [x] parseSignatures
-- [ ] serialize
-- [ ] deserialize
+- [x] serialize
+- [x] deserialize
 - [x] toBytes
-- [ ] toArray
-- [ ] toJson
+- [x] toArray
+- [x] toJson
 
 ### Message
+
 - [x] sign
 - [x] verify
-- [ ] toArray
-- [ ] toJson
+- [x] toArray
+- [x] toJson
 
 ### Address
+
 - [x] fromPassphrase
 - [x] fromPublicKey
 - [x] fromPrivateKey
-- [ ] validate
+- [x] validate
 
 ### Private Key
+
 - [x] fromPassphrase
-- [ ] fromHex
+- [x] fromHex
 
 ### Public Key
+
 - [x] fromPassphrase
-- [ ] fromHex
+- [x] fromHex
 
 ### WIF
-- [ ] fromPassphrase
+
+- [x] fromPassphrase
 
 ### Configuration
+
 - [x] getNetwork
 - [x] setNetwork
 - [x] getFee
 - [x] setFee
 
 ### Slot
+
 - [x] time
 - [x] epoch
 
 ### Networks (Mainnet, Devnet & Testnet)
+
 - [x] epoch
 - [x] version
 - [x] nethash
@@ -112,7 +125,7 @@ end
 
 ## Testing
 
-``` bash
+```bash
 $ mix test
 ```
 
