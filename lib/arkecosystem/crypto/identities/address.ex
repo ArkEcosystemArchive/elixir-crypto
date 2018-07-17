@@ -1,5 +1,5 @@
 defmodule ArkEcosystem.Crypto.Identities.Address do
-  alias ArkEcosystem.Crypto.Utils.Base58Check
+  alias ArkEcosystem.Crypto.Helpers.Base58Check
 
   def from_passphrase(passphrase, network \\ nil) do
     passphrase

@@ -1,5 +1,5 @@
 defmodule ArkEcosystem.Crypto.Transactions.Serializers.MultiPayment do
-  alias ArkEcosystem.Crypto.Utils.Base58Check
+  alias ArkEcosystem.Crypto.Helpers.Base58Check
 
   def serialize(bytes, transaction) do
     payments_count = length(transaction.asset.payments)

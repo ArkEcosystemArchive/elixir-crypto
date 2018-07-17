@@ -1,7 +1,7 @@
 defmodule ArkEcosystem.Crypto.Transactions.Transaction do
   alias ArkEcosystem.Crypto.Enums.Types
   alias ArkEcosystem.Crypto.Identities.{PublicKey, PrivateKey}
-  alias ArkEcosystem.Crypto.Utils.{Base58Check, MapKeyTransformer}
+  alias ArkEcosystem.Crypto.Helpers.{Base58Check, MapKeyTransformer}
   alias ArkEcosystem.Crypto.Transactions.{Deserializer, Serializer}
 
   @second_signature_registration Types.second_signature_registration()

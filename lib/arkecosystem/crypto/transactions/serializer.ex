@@ -1,6 +1,6 @@
 defmodule ArkEcosystem.Crypto.Transactions.Serializer do
   alias ArkEcosystem.Crypto.Enums.Types
-  alias ArkEcosystem.Crypto.Utils.MapKeyTransformer
+  alias ArkEcosystem.Crypto.Helpers.MapKeyTransformer
   alias ArkEcosystem.Crypto.Configuration.Network
   alias ArkEcosystem.Crypto.Transactions.Serializers.Transfer
   alias ArkEcosystem.Crypto.Transactions.Serializers.SecondSignatureRegistration

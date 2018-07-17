@@ -1,4 +1,4 @@
-defmodule ArkEcosystem.Crypto.Utils.MapKeyTransformer do
+defmodule ArkEcosystem.Crypto.Helpers.MapKeyTransformer do
   def underscore(map) when is_map(map) do
     transform_map(map, &Macro.underscore/1)
   end

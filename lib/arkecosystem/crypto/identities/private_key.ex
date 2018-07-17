@@ -1,6 +1,6 @@
 defmodule ArkEcosystem.Crypto.Identities.PrivateKey do
   alias Exbtc.Core, as: BtcCore
-  alias ArkEcosystem.Crypto.Utils.Der
+  alias ArkEcosystem.Crypto.Helpers.Der
 
   def from_passphrase(passphrase) do
     Base.encode16(:crypto.hash(:sha256, passphrase), case: :lower)

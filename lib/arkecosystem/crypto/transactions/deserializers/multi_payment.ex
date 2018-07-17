@@ -1,5 +1,5 @@
 defmodule ArkEcosystem.Crypto.Transactions.Deserializers.MultiPayment do
-  alias ArkEcosystem.Crypto.Utils.Base58Check
+  alias ArkEcosystem.Crypto.Helpers.Base58Check
 
   def deserialize(data) do
     [transaction, asset_offset, serialized, bytes] = data

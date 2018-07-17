@@ -1,5 +1,5 @@
 defmodule ArkEcosystem.Crypto.Transactions.Serializers.Transfer do
-  alias ArkEcosystem.Crypto.Utils.Base58Check
+  alias ArkEcosystem.Crypto.Helpers.Base58Check
 
   def serialize(bytes, transaction) do
     amount = <<transaction.amount::little-unsigned-integer-size(64)>>
