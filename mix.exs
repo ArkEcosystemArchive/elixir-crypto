@@ -28,6 +28,7 @@ defmodule ArkEcosystem.Crypto.MixProject do
     [
       {:base58, "~> 0.1.0"},
       {:exbtc, "~> 0.1.3"},
+      {:ex_doc, ">= 0.0.0", only: :dev},
       {:excoveralls, "~> 0.9.1", only: :test},
       {:hackney, "~> 1.10"},
       {:jason, "~> 1.1"},
@@ -43,7 +44,8 @@ defmodule ArkEcosystem.Crypto.MixProject do
 
   defp package() do
     [
-      files: ["config", "lib", "priv", "mix.exs", "README*", "LICENSE*"],
+      maintainers: ["Brian Faust", "ArkEcosystem"],
+      files: ["config", "lib", "mix.exs", "README*", "LICENSE*"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/ArkEcosystem/elixir-crypto"}
     ]
