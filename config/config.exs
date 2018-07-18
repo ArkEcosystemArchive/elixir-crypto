@@ -2,7 +2,7 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :ark_crypto, :transactions,
+config :arkecosystem_crypto, :transactions,
   epoch: 1490101200,
   transfer_fee: 10000000,
   second_signature_fee: 500000000,

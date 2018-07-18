@@ -3,11 +3,15 @@ defmodule ArkEcosystem.Crypto.MixProject do
 
   def project do
     [
-      app: :ark_crypto,
+      app: :arkecosystem_crypto,
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
+      description: description(),
+      package: package(),
       deps: deps(),
+      name: "ArkEcosystem Elixir Crypto",
+      source_url: "https://github.com/ArkEcosystem/elixir-crypto",
       test_coverage: [tool: ExCoveralls],
     ]
   end
@@ -30,6 +34,18 @@ defmodule ArkEcosystem.Crypto.MixProject do
       {:kvx, "~> 0.1"},
       {:mock, "~> 0.3.0", only: :test},
       {:temp, "~> 0.4.5"}
+    ]
+  end
+
+  defp description() do
+    "A simple Cryptography Implementation in Elixir for the Ark Blockchain."
+  end
+
+  defp package() do
+    [
+      files: ["config", "lib", "priv", "mix.exs", "README*", "LICENSE*"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/ArkEcosystem/elixir-crypto"}
     ]
   end
 end
