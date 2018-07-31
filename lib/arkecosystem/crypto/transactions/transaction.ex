@@ -26,10 +26,10 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
     transaction = Map.put(transaction, :sender_public_key, public_key)
 
     signature = calc_signature(transaction, passphrase)
-    transaction = Map.put(transaction, :signature, signature)
 
-    id = get_id(transaction)
-    Map.put(transaction, :id, id)
+    transaction
+    |> Map.put(:signature, signature)
+    |> Map.put(:id, get_id(transaction))
   end
 
   def second_sign(transaction, nil) do
@@ -41,6 +41,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
 
     transaction
     |> Map.put(:sign_signature, sign_signature)
+    |> Map.put(:id, get_id(transaction))
   end
 
   def verify(transaction) do
