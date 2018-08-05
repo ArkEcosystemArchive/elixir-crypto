@@ -6,10 +6,10 @@
 
 > A simple Elixir Cryptography Implementation for the Ark Blockchain.
 
-[![Build Status](https://img.shields.io/travis/ArkEcosystem/elixir-crypto/master.svg)](https://travis-ci.org/ArkEcosystem/elixir-crypto)
-[![Codecov](https://img.shields.io/codecov/c/github/arkecosystem/elixir-crypto.svg)](https://codecov.io/gh/arkecosystem/elixir-crypto)
-[![Latest Version](https://img.shields.io/github/release/ArkEcosystem/elixir-crypto.svg)](https://github.com/ArkEcosystem/elixir-crypto/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://badgen.now.sh/travis/ArkEcosystem/elixir-crypto)](https://badgen.now.sh/travis/ArkEcosystem/elixir-crypto)
+[![Codecov](https://badgen.now.sh/codecov/c/github/arkecosystem/elixir-crypto)](https://codecov.io/gh/arkecosystem/elixir-crypto)
+[![Latest Version](https://badgen.now.sh/github/release/ArkEcosystem/elixir-crypto)](https://github.com/ArkEcosystem/elixir-crypto/releases)
+[![License: MIT](https://badgen.now.sh/badge/license/MIT/green)](https://opensource.org/licenses/MIT)
 
 ## Documentation
 
