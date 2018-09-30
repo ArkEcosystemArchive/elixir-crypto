@@ -1,6 +1,7 @@
 defmodule ArkEcosystem.Crypto.Transactions.Deserializers.TransferTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Transactions.Deserializer
+  alias ArkEcosystem.Crypto.Transactions.Transaction
   alias ArkEcosystem.Test.TestHelper
 
   test "should be ok if signed with a passphrase" do
@@ -18,6 +19,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.TransferTest do
     assert(actual.recipient_id == fixture.data.recipientId)
     assert(actual.signature == fixture.data.signature)
     assert(actual.id == fixture.data.id)
+    assert(Transaction.verify(actual) == true)
   end
 
   test "should be ok if signed with a second passphrase" do
@@ -35,6 +37,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.TransferTest do
     assert(actual.recipient_id == fixture.data.recipientId)
     assert(actual.signature == fixture.data.signature)
     assert(actual.id == fixture.data.id)
+    assert(Transaction.verify(actual) == true)
   end
 
   test "should be ok if signed with a passphrase and vendor field" do
@@ -53,6 +56,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.TransferTest do
     assert(actual.signature == fixture.data.signature)
     assert(actual.vendor_field == fixture.data.vendorField)
     assert(actual.id == fixture.data.id)
+    assert(Transaction.verify(actual) == true)
   end
 
   test "should be ok if signed with a second passphrase and vendor field" do
@@ -74,6 +78,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.TransferTest do
     assert(actual.sign_signature == fixture.data.signSignature)
     assert(actual.vendor_field == fixture.data.vendorField)
     assert(actual.id == fixture.data.id)
+    assert(Transaction.verify(actual) == true)
   end
 
   test "should be ok if signed with a passphrase and vendor field hex" do
@@ -92,6 +97,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.TransferTest do
     assert(actual.recipient_id == fixture.data.recipientId)
     assert(actual.signature == fixture.data.signature)
     assert(actual.id == fixture.data.id)
+    assert(Transaction.verify(actual) == true)
   end
 
   test "should be ok if signed with a second passphrase and vendor field hex" do
@@ -113,5 +119,6 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.TransferTest do
     assert(actual.signature == fixture.data.signature)
     assert(actual.sign_signature == fixture.data.signSignature)
     assert(actual.id == fixture.data.id)
+    assert(Transaction.verify(actual) == true)
   end
 end

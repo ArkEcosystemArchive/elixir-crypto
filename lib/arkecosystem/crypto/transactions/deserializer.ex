@@ -271,8 +271,6 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializer do
         transaction
       end
 
-    # Calculate recipient_id after the transaction id has been computed, because of
-    # https://github.com/ArkEcosystem/core/issues/754
     case transaction.type do
       type when type in [@second_signature_registration, @multi_signature_registration] ->
         recipient_id = Address.from_public_key(transaction.sender_public_key, transaction.network)

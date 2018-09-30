@@ -1,6 +1,7 @@
 defmodule ArkEcosystem.Crypto.Transactions.Deserializers.DelegateRegistrationTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Transactions.Deserializer
+  alias ArkEcosystem.Crypto.Transactions.Transaction
   alias ArkEcosystem.Test.TestHelper
 
   test "should be ok if signed with a passphrase" do
@@ -17,6 +18,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.DelegateRegistrationTes
     assert(actual.amount == fixture.data.amount)
     assert(actual.id == fixture.data.id)
     assert(actual.asset.delegate.username == fixture.data.asset.delegate.username)
+    assert(Transaction.verify(actual) == true)
   end
 
   test "should be ok if signed with a second passphrase" do
@@ -33,5 +35,6 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.DelegateRegistrationTes
     assert(actual.amount == fixture.data.amount)
     assert(actual.id == fixture.data.id)
     assert(actual.asset.delegate.username == fixture.data.asset.delegate.username)
+    assert(Transaction.verify(actual) == true)
   end
 end

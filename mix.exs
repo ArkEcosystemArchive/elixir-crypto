@@ -12,7 +12,7 @@ defmodule ArkEcosystem.Crypto.MixProject do
       deps: deps(),
       name: "ArkEcosystem Elixir Crypto",
       source_url: "https://github.com/ArkEcosystem/elixir-crypto",
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 

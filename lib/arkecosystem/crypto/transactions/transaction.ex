@@ -10,7 +10,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
   @multi_signature_registration Types.multi_signature_registration()
 
   def get_id(transaction) do
-    bytes = get_bytes(transaction, false, false)
+    bytes = to_bytes(transaction, false, false)
     :sha256 |> :crypto.hash(bytes) |> Base.encode16(case: :lower)
   end
 
@@ -45,16 +45,16 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
   end
 
   def verify(transaction) do
-    get_bytes(transaction)
+    to_bytes(transaction)
     |> PublicKey.verify(transaction.signature, transaction.sender_public_key)
   end
 
   def second_verify(transaction, second_public_key) do
-    get_bytes(transaction, false)
+    to_bytes(transaction, false)
     |> PublicKey.verify(transaction.sign_signature, second_public_key)
   end
 
-  def get_bytes(transaction, skip_signature \\ true, skip_second_signature \\ true) do
+  def to_bytes(transaction, skip_signature \\ true, skip_second_signature \\ true) do
     type = <<transaction.type::little-unsigned-integer-size(8)>>
     timestamp = <<transaction.timestamp::little-unsigned-integer-size(32)>>
 
@@ -62,8 +62,12 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
       transaction.sender_public_key
       |> Base.decode16!(case: :lower)
 
+    skip_recipient_id =
+      transaction.type in [@second_signature_registration, @multi_signature_registration]
+
     recipient_id =
-      if Map.has_key?(transaction, :recipient_id) && not is_nil(transaction.recipient_id) do
+      if Map.has_key?(transaction, :recipient_id) && not is_nil(transaction.recipient_id) &&
+           not skip_recipient_id do
         Base58Check.decode58check(transaction.recipient_id)
       else
         String.duplicate(<<0>>, 21)
@@ -197,7 +201,7 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
 
   defp calc_signature(transaction, passphrase, second \\ false) do
     transaction
-    |> get_bytes(not second)
+    |> to_bytes(not second)
     |> PrivateKey.sign(passphrase)
   end
 end

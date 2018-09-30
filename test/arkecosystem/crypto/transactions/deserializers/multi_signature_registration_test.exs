@@ -1,6 +1,7 @@
 defmodule ArkEcosystem.Crypto.Transactions.Deserializers.MultiSignatureRegistrationTest do
   use ExUnit.Case, async: false
   alias ArkEcosystem.Crypto.Transactions.Deserializer
+  alias ArkEcosystem.Crypto.Transactions.Transaction
   alias ArkEcosystem.Test.TestHelper
 
   test "should be ok if signed with a passphrase" do
@@ -21,5 +22,6 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.MultiSignatureRegistrat
     assert(actual.asset.multisignature.keysgroup == fixture.data.asset.multisignature.keysgroup)
     assert(actual.asset.multisignature.min == fixture.data.asset.multisignature.min)
     assert(actual.asset.multisignature.lifetime == fixture.data.asset.multisignature.lifetime)
+    assert(Transaction.verify(actual) == true)
   end
 end
