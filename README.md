@@ -6,7 +6,7 @@
 
 > A simple Elixir Cryptography Implementation for the Ark Blockchain.
 
-[![Build Status](https://badgen.now.sh/travis/ArkEcosystem/elixir-crypto)](https://travis-ci.org/ArkEcosystem/elixir-crypto)
+[![Build Status](https://badgen.now.sh/circleci/github/ArkEcosystem/elixir-crypto)](https://circleci.com/gh/ArkEcosystem/elixir-crypto)
 [![Codecov](https://badgen.now.sh/codecov/c/github/arkecosystem/elixir-crypto)](https://codecov.io/gh/arkecosystem/elixir-crypto)
 [![Latest Version](https://badgen.now.sh/github/release/ArkEcosystem/elixir-crypto)](https://github.com/ArkEcosystem/elixir-crypto/releases)
 [![License: MIT](https://badgen.now.sh/badge/license/MIT/green)](https://opensource.org/licenses/MIT)
