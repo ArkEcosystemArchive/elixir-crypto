@@ -10,7 +10,7 @@ jobs:
       - run: mix local.rebar --force
       - restore_cache:
           keys:
-            - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+            - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.exs" }}
             - v1-mix-cache-{{ .Branch }}
             - v1-mix-cache
       - restore_cache:
@@ -19,7 +19,7 @@ jobs:
             - v1-build-cache
       - run: mix do deps.get, compile
       - save_cache:
-          key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.exs" }}
           paths: "deps"
       - save_cache:
           key: v1-mix-cache-{{ .Branch }}
