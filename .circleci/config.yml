@@ -10,7 +10,7 @@ jobs:
       - run: mix local.rebar --force
       - restore_cache:
           keys:
-            - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+            - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.exs" }}
             - v1-mix-cache-{{ .Branch }}
             - v1-mix-cache
       - restore_cache:
@@ -19,7 +19,7 @@ jobs:
             - v1-build-cache
       - run: mix do deps.get, compile
       - save_cache:
-          key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.exs" }}
           paths: "deps"
       - save_cache:
           key: v1-mix-cache-{{ .Branch }}
@@ -33,6 +33,12 @@ jobs:
       - save_cache:
           key: v1-build-cache
           paths: "_build"
-      - run: mix test
+      - run:
+          name: Tests
+          command: MIX_ENV=test mix do compile --warnings-as-errors, coveralls.json
+      - run:
+          name: Codecov
+          when: on_success
+          command: bash <(curl -s https://codecov.io/bash)
       - store_test_results:
           path: _build/test/lib/arkecosystem_crypto

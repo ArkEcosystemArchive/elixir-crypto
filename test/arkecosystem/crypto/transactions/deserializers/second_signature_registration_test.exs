@@ -24,6 +24,6 @@ defmodule ArkEcosystem.Crypto.Transactions.Deserializers.SecondSignatureRegistra
     assert(Transaction.verify(actual) == true)
 
     # special case as the type 1 transaction itself has no recipientId
-    assert(actual.recipient_id == Address.from_public_key(fixture.data.senderPublicKey))
+    assert(actual.recipient_id == Address.from_public_key(fixture.data.senderPublicKey, 30))
   end
 end
