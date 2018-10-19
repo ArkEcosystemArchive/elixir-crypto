@@ -33,6 +33,12 @@ jobs:
       - save_cache:
           key: v1-build-cache
           paths: "_build"
-      - run: mix test
+      - run:
+          name: Tests
+          command: mix test
+      - run:
+          name: Codecov
+          when: on_success
+          command: bash <(curl -s https://codecov.io/bash)
       - store_test_results:
           path: _build/test/lib/arkecosystem_crypto
