@@ -1,10 +1,10 @@
-# Ark Elixir - Crypto
+# ARK Elixir - Crypto
 
 <p align="center">
     <img src="https://github.com/ArkEcosystem/elixir-crypto/blob/master/banner.png" />
 </p>
 
-> A simple Elixir Cryptography Implementation for the Ark Blockchain.
+> A simple Elixir Cryptography Implementation for the ARK Blockchain.
 
 [![Build Status](https://badgen.now.sh/circleci/github/ArkEcosystem/elixir-crypto)](https://circleci.com/gh/ArkEcosystem/elixir-crypto)
 [![Codecov](https://badgen.now.sh/codecov/c/github/arkecosystem/elixir-crypto)](https://codecov.io/gh/arkecosystem/elixir-crypto)
