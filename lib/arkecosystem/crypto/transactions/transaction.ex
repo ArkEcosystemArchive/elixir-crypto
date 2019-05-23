@@ -82,11 +82,11 @@ defmodule ArkEcosystem.Crypto.Transactions.Transaction do
             diff = 64 - length
             transaction.vendor_field <> String.duplicate(<<0>>, diff)
 
-          length > 64 ->
-            String.slice(transaction, 0..63)
+          length >= 64 && length <= 255 ->
+            transaction.vendor_field
 
           true ->
-            transaction.vendor_field
+            String.duplicate(<<0>>, 64)
         end
       else
         String.duplicate(<<0>>, 64)
