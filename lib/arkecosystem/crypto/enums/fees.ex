@@ -16,7 +16,8 @@ defmodule ArkEcosystem.Crypto.Enums.Fees do
   end
 
   def multi_signature_registration do
-    Application.get_env(:arkecosystem_crypto, :transactions)[:multisignature_base_fee] || 500_000_000
+    Application.get_env(:arkecosystem_crypto, :transactions)[:multisignature_base_fee] ||
+      500_000_000
   end
 
   def ipfs do
